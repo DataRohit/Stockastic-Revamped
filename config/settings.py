@@ -17,6 +17,10 @@ READ_DOT_ENV_FILE = env.bool(var="DJANGO_READ_DOT_ENV_FILE", default=False)
 if READ_DOT_ENV_FILE:
     env.read_env(str(BASE_DIR / ".env"))
 
+# Set auth user model
+# ------------------------------------------------------------------------------
+AUTH_USER_MODEL = "account.User"
+
 # General
 # ------------------------------------------------------------------------------
 DEBUG = env.bool(var="DJANGO_DEBUG", default=False)
