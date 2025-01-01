@@ -7,6 +7,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.account.managers import UserManager
 from apps.account.validators import UsernameValidator
 
 
@@ -55,6 +56,9 @@ class User(AbstractUser):
         USERNAME_FIELD (str): The username field of the user
         REQUIRED_FIELDS (List[str]): The required fields for the user
 
+    Managers:
+        objects (UserManager): The user manager
+
     Meta:
         verbose_name (str): The verbose name of the user
         verbose_name_plural (str): The verbose name of the user
@@ -93,6 +97,9 @@ class User(AbstractUser):
 
     # Constants for required fields
     REQUIRED_FIELDS = ["username", "first_name", "last_name"]
+
+    # Set the user manager
+    objects = UserManager()
 
     # Meta
     class Meta:
