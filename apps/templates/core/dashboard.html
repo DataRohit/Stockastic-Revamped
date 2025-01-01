@@ -5,5 +5,133 @@
     Dashboard
 {% endblock title %}
 {% block content %}
-    <div class="flex items-center justify-center m-4 xl:max-w-screen">Dashboard</div>
+    <div class="flex items-center justify-center m-4 xl:max-w-screen">
+        <div class="flex overflow-scroll no-scrollbar space-x-2 text-xxs md:text-xs text-gray-300 xl:max-w-screen-xl xl:w-full xl:space-x-0 xl:justify-between"
+             id="dashboard">
+            {% for symbol, quote in quotes.items %}
+                <a class="card bg-neutral text-neutral-content rounded-md h-16 md:h-[4.5rem] cursor-pointer"
+                   id="{{ quote.longName|slugify }}-card">
+                    <div class="w-[11.5rem] md:w-52 p-4 h-full flex flex-col justify-center items-start space-y-1">
+                        <p class="font-bold text-white">
+                            {% if quote.longName %}
+                                {{ quote.longName|upper }}
+                            {% else %}
+                                {{ quote.shortName|upper }}
+                            {% endif %}
+                        </p>
+                        <div class="flex items-center justify-between w-full">
+                            <p class="quote-price {{ quote.colorClass }}"
+                               id="{{ quote.longName|slugify }}-price">{{ quote.lastPrice|floatformat:2|intcomma }}</p>
+                            <span class="quote-change {{ quote.colorClass }}"
+                                  id="{{ quote.longName|slugify }}-change">
+                                {% if quote.dayChange >= 0 %}
+                                    +{{ quote.dayChange|floatformat:2|intcomma }}
+                                {% else %}
+                                    {{ quote.dayChange|floatformat:2|intcomma }}
+                                {% endif %}
+                            </span>
+                            <span class="quote-percent {{ quote.colorClass }}"
+                                  id="{{ quote.longName|slugify }}-percent">
+                                {% if quote.dayChangePercentage >= 0 %}
+                                    +{{ quote.dayChangePercentage|floatformat:2|intcomma }}%
+                                {% else %}
+                                    {{ quote.dayChangePercentage|floatformat:2|intcomma }}%
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+            <div class="card bg-neutral text-neutral-content rounded-md h-16 md:h-[4.5rem]">
+                <a class="w-[11.5rem] md:w-52 p-4 h-full flex flex-col justify-center items-start space-y-1 cursor-pointer">
+                    <p class="font-bold text-white flex items-center justify-center">
+                        All Indices
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2"
+                             stroke="currentColor"
+                             class="h-4 w-4 ml-1">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </p>
+                    <p class="text-gray-300 text-semibold">Indian and Global</p>
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
+{% block script %}
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        {% if is_market_open %}
+            if ("WebSocket" in window) {
+                const socketUrl = `wss://${window.location.host}/ws/topIndexQuotes/`;
+                const socket = new WebSocket(socketUrl);
+
+                socket.onerror = function(error) {
+                    console.error('WebSocket Error:', error);
+                };
+
+                socket.onopen = function () {
+                    console.log("WebSocket connection established");
+                };
+
+                socket.onmessage = function (event) {
+                    const quotes = JSON.parse(event.data);
+
+                    Object.entries(quotes).forEach(([symbol, quote]) => {
+                        const slugifiedSymbol = slugify(quote.longName);
+
+                        const card = document.getElementById(`${slugifiedSymbol}-card`);
+                        const priceElement = document.getElementById(`${slugifiedSymbol}-price`);
+                        const changeElement = document.getElementById(`${slugifiedSymbol}-change`);
+                        const percentElement = document.getElementById(`${slugifiedSymbol}-percent`);
+
+                        if (priceElement) {
+                            priceElement.textContent = parseFloat(quote.lastPrice).toLocaleString('en-IN', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+
+                            const colorClass = quote.dayChange >= 0 ? 'text-green-500' : 'text-red-500';
+
+                            ['text-green-500', 'text-red-500'].forEach(cls => {
+                                priceElement.classList.remove(cls);
+                                changeElement?.classList.remove(cls);
+                                percentElement?.classList.remove(cls);
+                            });
+
+                            priceElement.classList.add(colorClass);
+                            changeElement?.classList.add(colorClass);
+                            percentElement?.classList.add(colorClass);
+                        }
+
+                        if (changeElement) {
+                            const change = parseFloat(quote.dayChange);
+                            changeElement.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}`;
+                        }
+
+                        if (percentElement) {
+                            const dayChangePercentage = parseFloat(quote.dayChangePercentage);
+                            percentElement.textContent = `${dayChangePercentage >= 0 ? '+' : ''}${dayChangePercentage.toFixed(2)}%`;
+                        }
+                    });
+                };
+
+                socket.onclose = function (event) {
+                    console.error("WebSocket connection closed:", event);
+                };
+
+                socket.onerror = function (error) {
+                    console.error("WebSocket error:", error);
+                };
+            } else {
+                console.error("WebSocket not supported in this browser.");
+            }
+        {% else %}
+            console.log("Market is closed. Not connecting to WebSocket.");
+        {% endif %}
+    });
+    </script>
+{% endblock script %}
