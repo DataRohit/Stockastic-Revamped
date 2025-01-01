@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="hero flex-1 bg-auto"
+         style="background-image: url({% static 'images/core/hero.webp' %})">
+        <div class="hero-overlay bg-opacity-60"></div>
+        <div class="hero-content text-gray-50 text-center -mt-16 md:-mt-32">
+            <!-- Added negative margin-top -->
+            <div class="min-w-md max-w-3xl">
+                <h1 class="mb-5 text-4xl sm:text-5xl font-bold">Stockastic</h1>
+                <p class="mb-5 text-sm sm:text-base">
+                    Track, analyze, and optimize your stock portfolio effortlessly with Stockastic.
+                </p>
+                {% if user.is_authenticated %}
+                    <a class="btn btn-primary">
+                        Dashboard
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                        </svg>
+                    </a>
+                {% else %}
+                    <a class="btn btn-primary">
+                        Get Started
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                        </svg>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

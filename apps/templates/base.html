@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            {% block title %}
+                Stockastic
+            {% endblock title %}
+        </title>
+        <!-- Meta Tags for SEO -->
+        <meta name="description"
+              content="Stockastic - A powerful stock management and monitoring platform built with Django. Features real-time tracking, advanced analytics, and intuitive inventory management. Modern, efficient, and scalable." />
+        <meta name="keywords"
+              content="stock management, inventory tracking, stock monitoring, django, postgresql, tailwindcss, daisyui, business management, inventory control, stock analytics" />
+        <meta name="author" content="Rohit Vilas Ingole (DataRohit)" />
+        <meta name="robots" content="index, follow" />
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+        <!-- Scripts -->
+        <script src="{% static 'js/tailwind.js' %}"></script>
+        <script src="{% static 'js/project.js' %}"></script>
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="{% static 'css/daisyui.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+        {% block head %}
+        {% endblock head %}
+        <script>let FF_FOUC_FIX;</script>
+    </head>
+    <body class="h-screen bg-base-100 text-gray-50 flex flex-col"
+          data-theme="dark">
+        <div class="drawer h-full">
+            <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content flex flex-col">
+                <!-- Navbar -->
+                <div class="navbar bg-base-300 flex justify-between">
+                    <div class="flex items-center">
+                        <div class="flex items-center">
+                            <div class="flex-none lg:hidden">
+                                <label for="my-drawer-3"
+                                       aria-label="open sidebar"
+                                       class="btn btn-square btn-ghost">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         class="inline-block h-6 w-6 stroke-current">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                                    </svg>
+                                </label>
+                            </div>
+                            <a href="{% url "core:home" %}"
+                               class="flex items-center justify-between ml-2">
+                                <img src="{% static 'images/favicon.png' %}"
+                                     alt="Favicon"
+                                     class="w-8 h-8 hidden lg:block"
+                                     height="32"
+                                     width="32" />
+                                <div class="lg:ml-4 font-bold text-lg">Stockastic</div>
+                            </a>
+                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="hidden flex-none lg:block">
+                                <ul class="menu menu-horizontal">
+                                    <li>
+                                        <a>Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a>Indices</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="dropdown dropdown-end">
+                            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                                <div class="w-10 rounded-full">
+                                    {% if user.avatar %}
+                                        <img alt="Profile" height="40" width="40" src="{{ user.avatar.url }}" />
+                                    {% else %}
+                                        <img alt="Profile"
+                                             height="40"
+                                             width="40"
+                                             src="https://api.dicebear.com/9.x/fun-emoji/svg?seed={{ user.username }}" />
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <ul tabindex="0"
+                                class="menu menu-sm dropdown-content bg-gray-700 rounded-box z-[1] mt-3 w-52 p-2 shadow gap-1">
+                                <li>
+                                    <a class="py-3">Profile</a>
+                                </li>
+                                <li>
+                                    <a class="py-3">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div>
+                            <div class="hidden flex-none lg:block">
+                                <!-- Navbar menu content here -->
+                                <ul class="menu menu-horizontal">
+                                    <li>
+                                        <a class="font-semibold py-3">Register</a>
+                                    </li>
+                                    <li>
+                                        <a class="font-semibold py-3">Login</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                {% block content %}
+                {% endblock content %}
+            </div>
+            <div class="drawer-side">
+                <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
+                <!-- Sidebar content here -->
+                <ul class="menu bg-base-200 h-full w-80 p-4 gap-2">
+                    <li>
+                        <a href="{% url "core:home" %}" class="flex items-center gap-4">
+                            <img src="{% static 'images/favicon.png' %}"
+                                 alt="Favicon"
+                                 class="w-8 h-8"
+                                 height="32"
+                                 width="32" />
+                            <div class="font-bold text-lg">Stockastic</div>
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a class="font-semibold py-3">Dashboard</a>
+                        </li>
+                        <li>
+                            <a class="font-semibold py-3">Indices</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="font-semibold py-3">Register</a>
+                        </li>
+                        <li>
+                            <a class="font-semibold py-3">Login</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        {% block style %}
+        {% endblock style %}
+        {% block script %}
+        {% endblock script %}
+    </body>
+</html>
