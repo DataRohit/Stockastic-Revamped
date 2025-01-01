@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Set bash to exit immediately if a command fails
+set -o errexit
+# Return a non-zero exit status if any part of a pipeline fails
+set -o pipefail
+# Treat unset variables as an error when expanding them
+set -o nounset
+
+# Apply database migrations
+python manage.py makemigrations --no-input
+python manage.py migrate --no-input
+
+# Collect static files
+python manage.py collectstatic --no-input
+
+# Start the Django development server using Uvicorn (ASGI server)
+exec uvicorn config.asgi:application --host 0.0.0.0 --port 8000 --reload

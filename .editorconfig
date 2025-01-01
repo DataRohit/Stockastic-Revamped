@@ -1,0 +1,37 @@
+# Set the project root
+root = true
+
+# Default settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Python, reStructuredText, INI files
+[*.{py,rst,ini}]
+indent_style = space
+indent_size = 4
+
+# HTML, CSS, SCSS, JSON, YAML, XML files
+[*.{html,css,scss,json,yml,xml}]
+indent_style = space
+indent_size = 4
+
+# JavaScript, TypeScript, CoffeeScript, Markdown files
+[*.{js,ts,coffee,md}]
+indent_style = space
+indent_size = 4
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+
+# Makefile
+[Makefile]
+indent_style = tab
+
+# Configuration files
+[default.conf]
+indent_style = space
+indent_size = 4

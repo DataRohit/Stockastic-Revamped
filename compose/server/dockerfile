@@ -1,0 +1,54 @@
+# Use the official Python 3.12.7 Slim Bookworm image as the base
+FROM docker.io/python:3.12.7-slim-bookworm AS python
+
+# Build stage
+FROM python AS python-build-stage
+
+# Install build dependencies
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    build-essential \
+    libpq-dev \
+    && pip install --upgrade pip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and build wheels
+COPY ./requirements.txt requirements.txt
+RUN pip wheel --wheel-dir /usr/src/app/wheels -r requirements.txt
+
+# Run stage
+FROM python AS python-run-stage
+
+# Set environment variables
+ARG APP_HOME=/app
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
+
+# Set working directory
+WORKDIR ${APP_HOME}
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    libpq-dev \
+    gettext \
+    git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy wheels from build stage and install them
+COPY --from=python-build-stage /usr/src/app/wheels /wheels/
+RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
+    && rm -rf /wheels/
+
+# Copy entrypoint scripts and make them executable
+COPY ./compose/server/entrypoint /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint && chmod +x /entrypoint
+
+COPY ./compose/server/start /start
+RUN sed -i 's/\r$//g' /start && chmod +x /start
+
+# Copy application code
+COPY . ${APP_HOME}
+
+# Set the entrypoint for the container
+ENTRYPOINT ["/entrypoint"]

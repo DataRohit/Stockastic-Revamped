@@ -1,0 +1,104 @@
+volumes:
+    stockastic-postgres-data:
+        name: stockastic-postgres-data
+    stockastic-minio-data:
+        name: stockastic-minio-data
+    stockastic-redis-data:
+        name: stockastic-redis-data
+    stockastic-nginx-data:
+        name: stockastic-nginx-data
+
+services:
+    stockastic-server: &stockastic-server
+        image: stockastic-server:latest
+        container_name: stockastic-server
+        build:
+            context: .
+            dockerfile: ./compose/server/dockerfile
+        command: /start
+        volumes:
+            - .:/app
+        env_file:
+            - ./.envs/.server.env
+            - ./.envs/.postgres.env
+        networks:
+            - stockastic-network
+        expose:
+            - "8000"
+        depends_on:
+            stockastic-postgres:
+                condition: service_healthy
+            stockastic-minio:
+                condition: service_healthy
+            stockastic-redis:
+                condition: service_healthy
+        healthcheck:
+            test: [ "CMD", "python", "-c", "import socket; socket.socket().connect(('localhost', 8000))" ]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 60s
+
+    stockastic-postgres:
+        image: postgres:16-alpine
+        container_name: stockastic-postgres
+        volumes:
+            - stockastic-postgres-data:/var/lib/postgresql/data
+        env_file:
+            - ./.envs/.postgres.env
+        networks:
+            - stockastic-network
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    stockastic-minio:
+        image: minio/minio:latest
+        container_name: stockastic-minio
+        command: server --console-address :9090 --address :9000 /data
+        volumes:
+            - stockastic-minio-data:/data
+        ports:
+            - "9090:9090"
+        env_file:
+            - ./.envs/.minio.env
+        networks:
+            - stockastic-network
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/ready" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    stockastic-redis:
+        image: redis:latest
+        container_name: stockastic-redis
+        volumes:
+            - stockastic-redis-data:/data
+        networks:
+            - stockastic-network
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+    stockastic-nginx:
+        build:
+            context: .
+            dockerfile: ./compose/nginx/dockerfile
+        container_name: stockastic-nginx
+        volumes:
+            - stockastic-nginx-data:/var/cache/nginx
+        ports:
+            - "8080:80"
+        networks:
+            - stockastic-network
+        depends_on:
+            - stockastic-server
+
+networks:
+    stockastic-network:
+        name: stockastic-network
