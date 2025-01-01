@@ -1,4 +1,5 @@
 # Imports
+import os
 import uuid
 
 from django.contrib.auth.models import AbstractUser
@@ -9,6 +10,29 @@ from django.utils.translation import gettext_lazy as _
 from apps.account.validators import UsernameValidator
 
 
+# Function to get the path to upload the avatar
+def avatar_upload_to(instance: "User", filename: str) -> str:
+    """Get the path to upload the avatar
+
+    Args:
+        instance (User): The user instance
+        filename (str): The filename
+
+    Returns:
+        str: The avatar path.
+    """
+
+    # Get the file extension
+    ext = filename.split(".")[-1]
+
+    # Generate a new filename
+    filename = f"{instance.id}.{ext}"
+
+    # Return the avatar path
+    return os.path.join("avatars/", filename)
+
+
+# Custom User model
 class User(AbstractUser):
     """User
 
@@ -24,6 +48,7 @@ class User(AbstractUser):
         email (EmailField): The email address of the user
         first_name (str): The first name of the user
         last_name (str): The last name of the user
+        avatar (ImageField): The avatar of the user
 
     Constants:
         EMAIL_FIELD (str): The email field of the user
@@ -58,6 +83,9 @@ class User(AbstractUser):
     )
     first_name = models.CharField(verbose_name=_("First Name"), max_length=60)
     last_name = models.CharField(verbose_name=_("Last Name"), max_length=60)
+    avatar = models.ImageField(
+        _("Avatar"), upload_to=avatar_upload_to, blank=True, null=True
+    )
 
     # Constants for email and username fields
     EMAIL_FIELD = "email"
