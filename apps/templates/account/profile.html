@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}
+    Profile
+{% endblock title %}
+{% block content %}
+    <div class="flex flex-col items-center justify-center min-h-[80vh] my-8 mx-4 md:mx-auto md:w-[28rem]">
+        {% if messages %}
+            {% for msg in messages %}
+                <div role="alert" class="alert alert-{{ msg.tags }} my-4">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         class="h-6 w-6 shrink-0 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                    <span class="text-sm">{{ msg }}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="w-full">
+            <h1 class="my-4 text-2xl leading-none tracking-tight text-gray-50 font-bold md:text-3xl lg:text-4xl">Profile</h1>
+        </div>
+        <form class="w-full"
+              method="post"
+              action="{% url "account:profile" %}"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                {{ form.username|add_label_class:"text-white mb-4" }}
+                {% render_field form.username class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1" %}
+            </div>
+            <div class="mb-4">
+                {{ form.email|add_label_class:"text-white mb-4" }}
+                {% render_field form.email class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1" %}
+            </div>
+            <div class="mb-4">
+                {{ form.first_name|add_label_class:"text-white mb-4" }}
+                {% render_field form.first_name class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1" %}
+            </div>
+            <div class="mb-4">
+                {{ form.last_name|add_label_class:"text-white mb-4" }}
+                {% render_field form.last_name class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1" %}
+            </div>
+            <div class="mb-4">
+                {{ form.avatar|add_label_class:"text-white mb-4" }}
+                {% render_field form.avatar class="file-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-1" %}
+            </div>
+            <button class="primaryAction mt-2 bg-[#73B769] hover:bg-[#56964a] focus:outline-none text-white focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 w-full"
+                    type="submit">Save</button>
+            <button class="primaryAction mt-2 bg-[#FBBF24] hover:bg-[#F59E0B] focus:outline-none text-white focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 w-full"
+                    type="reset">Reset</button>
+        </form>
+    </div>
+{% endblock content %}

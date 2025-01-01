@@ -64,7 +64,7 @@
                             <div class="hidden flex-none lg:block">
                                 <ul class="menu menu-horizontal">
                                     <li>
-                                        <a href="{% url 'core:dashboard' %}">Dashboard</a>
+                                        <a href="{% url "core:dashboard" %}">Dashboard</a>
                                     </li>
                                     <li>
                                         <a>Indices</a>
@@ -90,10 +90,10 @@
                             <ul tabindex="0"
                                 class="menu menu-sm dropdown-content bg-gray-700 rounded-box z-[1] mt-3 w-52 p-2 shadow gap-1">
                                 <li>
-                                    <a class="py-3">Profile</a>
+                                    <a href="{% url "account:profile" %}" class="py-3">Profile</a>
                                 </li>
                                 <li>
-                                    <a class="py-3">Logout</a>
+                                    <a href="{% url "account:logout" %}" class="py-3">Logout</a>
                                 </li>
                             </ul>
                         </div>
@@ -103,10 +103,10 @@
                                 <!-- Navbar menu content here -->
                                 <ul class="menu menu-horizontal">
                                     <li>
-                                        <a class="font-semibold py-3">Register</a>
+                                        <a href="{% url "account:register" %}" class="font-semibold py-3">Register</a>
                                     </li>
                                     <li>
-                                        <a class="font-semibold py-3">Login</a>
+                                        <a href="{% url "account:login" %}" class="font-semibold py-3">Login</a>
                                     </li>
                                 </ul>
                             </div>
@@ -132,17 +132,17 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li>
-                            <a href="{% url 'core:dashboard' %}" class="font-semibold py-3">Dashboard</a>
+                            <a href="{% url "core:dashboard" %}" class="font-semibold py-3">Dashboard</a>
                         </li>
                         <li>
                             <a class="font-semibold py-3">Indices</a>
                         </li>
                     {% else %}
                         <li>
-                            <a class="font-semibold py-3">Register</a>
+                            <a href="{% url "account:register" %}" class="font-semibold py-3">Register</a>
                         </li>
                         <li>
-                            <a class="font-semibold py-3">Login</a>
+                            <a href="{% url "account:login" %}" class="font-semibold py-3">Login</a>
                         </li>
                     </ul>
                 {% endif %}

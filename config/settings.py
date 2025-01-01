@@ -107,6 +107,12 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
+# Set authentication urls
+# ------------------------------------------------------------------------------
+LOGIN_URL = "account:login"
+LOGIN_REDIRECT_URL = "core:dashboard"
+LOGOUT_REDIRECT_URL = "core:home"
+
 # Passwords
 # ------------------------------------------------------------------------------
 PASSWORD_HASHERS = [

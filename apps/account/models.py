@@ -33,7 +33,6 @@ def avatar_upload_to(instance: "User", filename: str) -> str:
     return os.path.join("avatars/", filename)
 
 
-# Custom User model
 class User(AbstractUser):
     """User
 

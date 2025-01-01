@@ -14,6 +14,7 @@ urlpatterns += [path("health/", include("health_check.urls"))]
 # App urls
 urlpatterns += [
     path("", include("apps.core.urls")),
+    path("account/", include("apps.account.urls")),
 ]
 
 # If the app is in debug mode
