@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+    Stock Indices
+{% endblock title %}
+{% block content %}
+    <div class="mx-4 xl:mx-auto mt-8 xl:max-w-screen-xl xl:w-full xl:space-x-0 xl:justify-between">
+        {% if messages %}
+            {% for msg in messages %}
+                <div role="alert" class="alert alert-{{ msg.tags }} my-4">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         class="h-6 w-6 shrink-0 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                    <span class="text-sm">{{ msg }}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h1 class="text-3xl font-bold text-white w-full text-center mb-6">Stock Indices</h1>
+    </div>
+{% endblock content %}
