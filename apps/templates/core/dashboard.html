@@ -43,7 +43,8 @@
                 </a>
             {% endfor %}
             <div class="card bg-neutral text-neutral-content rounded-md h-16 md:h-[4.5rem]">
-                <a class="w-[11.5rem] md:w-52 p-4 h-full flex flex-col justify-center items-start space-y-1 cursor-pointer">
+                <a href="{% url 'stock:indices' %}"
+                   class="w-[11.5rem] md:w-52 p-4 h-full flex flex-col justify-center items-start space-y-1 cursor-pointer">
                     <p class="font-bold text-white flex items-center justify-center">
                         All Indices
                         <svg xmlns="http://www.w3.org/2000/svg"
