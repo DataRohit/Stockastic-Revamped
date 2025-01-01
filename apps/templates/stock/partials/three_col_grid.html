@@ -1,0 +1,6 @@
+{% load humanize %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {% include "stock/partials/conditional_block.html" with title=title1 value=value1 %}
+    {% include "stock/partials/conditional_block.html" with title=title2 value=value2 %}
+    {% include "stock/partials/conditional_block.html" with title=title3 value=value3 %}
+</div>

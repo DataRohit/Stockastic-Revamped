@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 from apps.socket.constants import BSE_CATEGORIES, NSE_CATEGORIES
-from apps.socket.helpers import get_index_quotes
+from apps.socket.helpers import generate_candlestick_chart, get_index_quotes, get_quote
 from apps.socket.utils import is_market_open
 from apps.stock.forms import IndicesFilterForm
 
@@ -153,3 +153,34 @@ def get_categories_view(request):
 
     # Return the categories as a JSON response
     return JsonResponse({"categories": categories}, safe=False)
+
+
+# Index quote view
+def index_quote_view(request, symbol: str):
+    """Index quote view
+
+    Args:
+        request (HttpRequest): The request object
+        symbol (str): The symbol of the index
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # Get the index quote
+    quote = get_quote(symbol)[-1]
+
+    # Generate the candle stick chart
+    chart = generate_candlestick_chart(symbol)
+
+    # Create a context dictionary
+    context = {
+        "user": request.user,
+        "symbol": symbol,
+        "quote": quote,
+        "is_market_open": is_market_open(),
+        "chart": chart.to_html(),
+    }
+
+    # Render the home.html template
+    return render(request, "stock/index_quote.html", context)

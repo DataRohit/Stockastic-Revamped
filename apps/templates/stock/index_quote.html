@@ -1,0 +1,350 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+    {{ quote.shortName|upper }}
+{% endblock title %}
+{% block content %}
+    <div class="mx-4 xl:mx-auto my-8 xl:max-w-screen-xl xl:w-full xl:space-x-0 xl:justify-between">
+        {% if messages %}
+            {% for msg in messages %}
+                <div role="alert" class="alert alert-{{ msg.tags }} my-4">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         class="h-6 w-6 shrink-0 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                    <span class="text-sm">{{ msg }}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <h1 class="text-2xl lg:text-3xl font-black text-white w-full text-center mb-6">
+            {% if quote.longName %}
+                {{ quote.longName|upper }}
+            {% else %}
+                {{ quote.shortName|upper }}
+            {% endif %}
+        </h1>
+        <div id="chart-container">{{ chart|safe }}</div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Key Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">Last Price</div>
+                    <div id="lastPrice"
+                         class="stat-value text-lg lg:text-xl {{ quote.colorClass }} flex items-center">
+                        <span class="mr-2">{{ quote.lastPrice|floatformat:2|intcomma }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2.5"
+                             stroke="currentColor"
+                             class="w-5 h-5 lg:w-6 lg:h-6 arrow-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">Day Change</div>
+                    <div id="dayChange"
+                         class="stat-value text-lg lg:text-xl {{ quote.colorClass }} flex items-center">
+                        <span class="mr-2">{{ quote.dayChange|floatformat:2|intcomma }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2.5"
+                             stroke="currentColor"
+                             class="w-5 h-5 lg:w-6 lg:h-6 arrow-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">Percent Change</div>
+                    <div id="dayChangePercentage"
+                         class="stat-value text-lg lg:text-xl {{ quote.colorClass }} flex items-center">
+                        <span class="mr-2">{{ quote.dayChangePercentage|floatformat:2|intcomma }}%</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2.5"
+                             stroke="currentColor"
+                             class="w-5 h-5 lg:w-6 lg:h-6 arrow-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Daily Performance</h3>
+        {% include "stock/partials/four_col_grid.html" with title1="Previous Close" value1=quote.previousClose title2="Day Open" value2=quote.open title3="Day High" value3=quote.dayHigh title4="Day Low" value4=quote.dayLow %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/three_col_grid.html" with title1="Regular Market Open" value1=quote.regularMarketOpen title2="Regular Market Day Low" value2=quote.regularMarketDayLow title3="Regular Market Day High" value3=quote.regularMarketDayHigh %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Volume Data</h3>
+        {% include "stock/partials/three_col_grid.html" with title1="Last Volume" value1=quote.lastVolume title2="10-Day Average Volume" value2=quote.tenDayAverageVolume title3="3-Month Average Volume" value3=quote.threeMonthAverageVolume %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Yearly Performance</h3>
+        {% include "stock/partials/four_col_grid.html" with title1="52-Week High" value1=quote.fiftyTwoWeekHigh title2="52-Week Low" value2=quote.fiftyTwoWeekLow title3="Year High" value3=quote.yearHigh title4="Year Low" value4=quote.yearLow %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Historical Averages</h3>
+        {% include "stock/partials/two_col_grid.html" with title1="50-Day Average" value1=quote.fiftyDayAverage title2="200-Day Average" value1=quote.twoHundredDayAverage %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Additional Information</h3>
+        {% include "stock/partials/three_col_grid.html" with title1="Currency" value1=quote.currency title2="Exchange" value2=quote.exchange title3="Quote Type" value3=quote.quoteType %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/two_col_grid.html" with title1="Market Cap" value1=quote.marketCap title2="Shares" value1=quote.shares %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const isMarketOpen = {{ is_market_open|lower }};
+            const symbol = "{{ symbol }}";
+
+            if (isMarketOpen) {
+                connectWebSocket();
+            } else {
+                connectWebSocketOnce();
+            }
+
+            function connectWebSocket() {
+                if (!('WebSocket' in window)) {
+                    console.error("WebSocket not supported in this browser.");
+                    return;
+                }
+
+                const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/`);
+
+                ws.onmessage = function (event) {
+                    try {
+                        let cleanData = event.data;
+                        if (typeof cleanData === 'string') {
+                            cleanData = cleanData.replace(/^\ufeff/g, '');
+                            cleanData = cleanData.trim();
+                        }
+
+                        let parsedData;
+                        if (typeof cleanData === 'object' && cleanData !== null) {
+                            parsedData = cleanData;
+                        } else {
+                            try {
+                                parsedData = JSON.parse(cleanData);
+                            } catch (parseError) {
+                                parsedData = eval('(' + cleanData + ')');
+                            }
+                        }
+
+                        let quoteData;
+                        if (Array.isArray(parsedData)) {
+                            quoteData = parsedData[1];
+                        } else {
+                            quoteData = parsedData;
+                        }
+
+                        if (quoteData && typeof quoteData === 'object') {
+                            updateQuote(quoteData);
+                        } else {
+                            throw new Error('Invalid quote data structure');
+                        }
+
+                    } catch (error) {
+                        console.error('Data processing error:', error);
+                        console.error('Raw data causing error:', event.data);
+                    }
+                };
+
+                ws.onerror = function (error) {
+                    console.error('WebSocket error:', error);
+                };
+
+                ws.onclose = function () {
+                    console.log('WebSocket connection closed');
+                };
+            }
+
+            function connectWebSocketOnce() {
+                if (!('WebSocket' in window)) {
+                    console.error("WebSocket not supported in this browser.");
+                    return;
+                }
+
+                const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/`);
+
+                ws.onmessage = function (event) {
+                    try {
+                        let cleanData = event.data;
+                        if (typeof cleanData === 'string') {
+                            cleanData = cleanData.replace(/^\ufeff/g, '');
+                            cleanData = cleanData.trim();
+                        }
+
+                        let parsedData;
+                        if (typeof cleanData === 'object' && cleanData !== null) {
+                            parsedData = cleanData;
+                        } else {
+                            try {
+                                parsedData = JSON.parse(cleanData);
+                            } catch (parseError) {
+                                parsedData = eval('(' + cleanData + ')');
+                            }
+                        }
+
+                        let quoteData;
+                        if (Array.isArray(parsedData)) {
+                            quoteData = parsedData[1];
+                        } else {
+                            quoteData = parsedData;
+                        }
+
+                        if (quoteData && typeof quoteData === 'object') {
+                            updateQuote(quoteData);
+                            ws.close();
+                        } else {
+                            throw new Error('Invalid quote data structure');
+                        }
+
+                    } catch (error) {
+                        console.error('Data processing error:', error);
+                        console.error('Raw data causing error:', event.data);
+                    }
+                };
+
+                ws.onerror = function (error) {
+                    console.error('WebSocket error:', error);
+                };
+
+                ws.onclose = function () {
+                    console.log('WebSocket connection closed');
+                };
+            }
+
+            function updateQuote(data) {
+                try {
+                    const lastPriceElement = document.querySelector('#lastPrice');
+                    if (lastPriceElement) {
+                        const lastPrice = parseFloat(data.lastPrice).toLocaleString('en-IN', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+                        lastPriceElement.querySelector('span').textContent = lastPrice;
+                        updateElementColor(lastPriceElement, data.dayChange);
+                    }
+
+                    const dayChangeElement = document.querySelector('#dayChange');
+                    if (dayChangeElement) {
+                        const dayChange = parseFloat(data.dayChange).toLocaleString('en-IN', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+                        const formattedDayChange = data.dayChange >= 0 ? `+${dayChange}` : dayChange;
+                        dayChangeElement.querySelector('span').textContent = formattedDayChange;
+                        updateElementColor(dayChangeElement, data.dayChange);
+                    }
+
+                    const dayChangePercentageElement = document.querySelector('#dayChangePercentage');
+                    if (dayChangePercentageElement) {
+                        const dayChangePercentage = parseFloat(data.dayChangePercentage).toFixed(2);
+                        const formattedPercentage = data.dayChange >= 0 ? `+${dayChangePercentage}` : dayChangePercentage;
+                        dayChangePercentageElement.querySelector('span').textContent = `${formattedPercentage}%`;
+                        updateElementColor(dayChangePercentageElement, data.dayChange);
+                    }
+
+                    updateArrows(data.dayChange);
+                } catch (error) {
+                    console.error('Error updating quote display:', error);
+                }
+            }
+
+            function updateElementColor(element, value) {
+                element.classList.remove('text-green-500', 'text-red-500');
+                element.classList.add(value >= 0 ? 'text-green-500' : 'text-red-500');
+            }
+
+            function updateArrows(value) {
+                const arrows = document.querySelectorAll('.arrow-icon');
+                arrows.forEach(arrow => {
+                    if (value >= 0) {
+                        arrow.innerHTML = `
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+                        `;
+                    } else {
+                        arrow.innerHTML = `
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+                        `;
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!('WebSocket' in window)) {
+                console.error("WebSocket not supported in this browser.");
+                return;
+            }
+
+            const isMarketOpen = {{ is_market_open|lower }};
+            if (!isMarketOpen) {
+                console.log("Market is closed. Not connecting to WebSocket.");
+                return;
+            }
+
+            const symbol = "{{ symbol }}";
+            const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/chart/`);
+
+            ws.onmessage = function (event) {
+                try {
+                    const chartContainer = document.getElementById('chart-container');
+                    if (!chartContainer) {
+                        console.error('Chart container element not found');
+                        return;
+                    }
+
+                    const oldScripts = document.querySelectorAll('script[data-chart-script]');
+                    oldScripts.forEach(script => script.remove());
+
+                    chartContainer.innerHTML = event.data;
+
+                    const scripts = chartContainer.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.type = script.type || 'text/javascript';
+                        newScript.setAttribute('data-chart-script', 'true');
+
+                        if (script.src) {
+                            newScript.src = script.src;
+                            newScript.async = false;
+                            document.head.appendChild(newScript);
+                        } else {
+                            newScript.textContent = script.textContent;
+                            document.body.appendChild(newScript);
+                        }
+
+                        script.remove();
+                    });
+                } catch (error) {
+                    console.error('Error rendering chart:', error);
+                }
+            };
+
+
+            ws.onerror = function (error) {
+                console.error('WebSocket error:', error);
+            };
+
+            ws.onclose = function () {
+                console.log('WebSocket connection closed');
+            };
+        });
+    </script>
+{% endblock content %}

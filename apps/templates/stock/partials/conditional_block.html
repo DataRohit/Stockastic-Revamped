@@ -1,0 +1,25 @@
+{% load humanize %}
+<div class="stats shadow-md">
+    <div class="stat">
+        <div class="stat-title text-xs lg:text-sm font-bold">{{ title }}</div>
+        <div class="stat-value text-lg lg:text-xl flex items-center">
+            <span class="mr-2">
+                {% if value %}
+                    {% if value|stringformat:"s"|first in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                        {{ value }}
+                    {% else %}
+                        {% with num_format=value|floatformat:"0" %}
+                            {% if num_format == value|stringformat:"s" %}
+                                {{ value|floatformat:"0"|intcomma }}
+                            {% else %}
+                                {{ value|floatformat:"2"|intcomma }}
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
+                {% else %}
+                    N/A
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>

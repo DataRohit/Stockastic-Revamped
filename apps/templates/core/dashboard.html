@@ -9,7 +9,8 @@
         <div class="flex overflow-scroll no-scrollbar space-x-2 text-xxs md:text-xs text-gray-300 xl:max-w-screen-xl xl:w-full xl:space-x-0 xl:justify-between"
              id="dashboard">
             {% for symbol, quote in quotes.items %}
-                <a class="card bg-neutral text-neutral-content rounded-md h-16 md:h-[4.5rem] cursor-pointer"
+                <a href="{% url 'stock:indexQuote' symbol %}"
+                   class="card bg-neutral text-neutral-content rounded-md h-16 md:h-[4.5rem] cursor-pointer"
                    id="{{ quote.longName|slugify }}-card">
                     <div class="w-[11.5rem] md:w-52 p-4 h-full flex flex-col justify-center items-start space-y-1">
                         <p class="font-bold text-white">

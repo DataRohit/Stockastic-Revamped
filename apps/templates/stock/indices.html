@@ -60,7 +60,7 @@
                             <tr>
                                 <th>{{ forloop.counter }}</th>
                                 <td>
-                                    <a>
+                                    <a href="{% url 'stock:indexQuote' symbol %}">
                                         {% if quote.longName %}
                                             {{ quote.longName|upper }}
                                         {% else %}
