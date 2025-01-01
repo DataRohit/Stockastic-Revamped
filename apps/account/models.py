@@ -6,6 +6,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.account.validators import UsernameValidator
+
 
 class User(AbstractUser):
     """User
@@ -45,7 +47,12 @@ class User(AbstractUser):
     # Attributes
     pkid = models.BigAutoField(primary_key=True, editable=False)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    username = models.CharField(verbose_name=_("Username"), max_length=60, unique=True)
+    username = models.CharField(
+        verbose_name=_("Username"),
+        max_length=60,
+        unique=True,
+        validators=[UsernameValidator()],
+    )
     email = models.EmailField(
         verbose_name=_("Email Address"), unique=True, db_index=True
     )
