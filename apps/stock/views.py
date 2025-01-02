@@ -156,6 +156,7 @@ def get_categories_view(request):
 
 
 # Index quote view
+@login_required
 def index_quote_view(request, symbol: str):
     """Index quote view
 
