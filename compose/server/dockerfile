@@ -47,6 +47,15 @@ RUN sed -i 's/\r$//g' /entrypoint && chmod +x /entrypoint
 COPY ./compose/server/start /start
 RUN sed -i 's/\r$//g' /start && chmod +x /start
 
+COPY ./compose/server/celery/worker/start /start-celery-worker
+RUN sed -i 's/\r$//g' /start-celery-worker && chmod +x /start-celery-worker
+
+COPY ./compose/server/celery/beat/start /start-celery-beat
+RUN sed -i 's/\r$//g' /start-celery-beat && chmod +x /start-celery-beat
+
+COPY ./compose/server/flower/start /start-flower
+RUN sed -i 's/\r$//g' /start-flower && chmod +x /start-flower
+
 # Copy application code
 COPY . ${APP_HOME}
 
