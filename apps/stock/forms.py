@@ -30,3 +30,24 @@ class IndicesFilterForm(forms.Form):
         required=True,
         widget=forms.Select(),
     )
+
+
+# GainersLosers filter form
+class GainersLosersFilterForm(forms.Form):
+    """GainersLosers filter form
+
+    Inherits:
+        forms.Form
+
+    Attributes:
+        stock_exchange (forms.ChoiceField): The stock exchange
+    """
+
+    # Attributes
+    stock_exchange = forms.ChoiceField(
+        label="Stock Exchange",
+        choices=[("NSE", "NSE"), ("BSE", "BSE")],
+        initial="NSE",
+        required=True,
+        widget=forms.Select(),
+    )

@@ -5,9 +5,15 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 from apps.socket.constants import BSE_CATEGORIES, NSE_CATEGORIES
-from apps.socket.helpers import generate_candlestick_chart, get_index_quotes, get_quote
+from apps.socket.helpers import (
+    generate_candlestick_chart,
+    get_index_quotes,
+    get_quote,
+    get_top_equity_gainers_20_quotes,
+    get_top_equity_losers_20_quotes,
+)
 from apps.socket.utils import is_market_open
-from apps.stock.forms import IndicesFilterForm
+from apps.stock.forms import GainersLosersFilterForm, IndicesFilterForm
 
 
 # Indices view
@@ -185,3 +191,81 @@ def index_quote_view(request, symbol: str):
 
     # Render the home.html template
     return render(request, "stock/index_quote.html", context)
+
+
+# Top gainers view
+@login_required
+def equity_top_gainers_view(request):
+    """Equity top gainers view
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # Create a form object
+    form = GainersLosersFilterForm(request.GET)
+
+    # Get the stock_exchange and category from the form data
+    stock_exchange = form.data.get("stock_exchange", "NSE")
+
+    # If invalid stock exchange
+    if stock_exchange not in ["NSE", "BSE"]:
+        # Set stock_exchange to NSE
+        stock_exchange = "NSE"
+
+        # Add an error message
+        messages.error(request, "Invalid stock exchange selected!")
+
+    # Context dictionary
+    context = {
+        "user": request.user,
+        "form": form,
+        "gainers": get_top_equity_gainers_20_quotes(stock_exchange),
+        "stock_exchange": stock_exchange,
+        "is_market_open": is_market_open(),
+    }
+
+    # Render the top_gainers.html template
+    return render(request, "stock/top_gainers.html", context)
+
+
+# Top losers view
+@login_required
+def equity_top_losers_view(request):
+    """Equity top losers view
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # Create a form object
+    form = GainersLosersFilterForm(request.GET)
+
+    # Get the stock_exchange and category from the form data
+    stock_exchange = form.data.get("stock_exchange", "NSE")
+
+    # If invalid stock exchange
+    if stock_exchange not in ["NSE", "BSE"]:
+        # Set stock_exchange to NSE
+        stock_exchange = "NSE"
+
+        # Add an error message
+        messages.error(request, "Invalid stock exchange selected!")
+
+    # Context dictionary
+    context = {
+        "user": request.user,
+        "form": form,
+        "losers": get_top_equity_losers_20_quotes(stock_exchange),
+        "stock_exchange": stock_exchange,
+        "is_market_open": is_market_open(),
+    }
+
+    # Render the top_losers.html template
+    return render(request, "stock/top_losers.html", context)

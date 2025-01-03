@@ -69,6 +69,12 @@
                                     <li>
                                         <a href="{% url 'stock:indices' %}">Indices</a>
                                     </li>
+                                    <li>
+                                        <a href="{% url 'stock:equityTopGainers' %}">Gainers</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'stock:equityTopLosers' %}">Losers</a>
+                                    </li>
                                 </ul>
                             </div>
                         {% endif %}
@@ -119,7 +125,7 @@
             <div class="drawer-side">
                 <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
                 <!-- Sidebar content here -->
-                <ul class="menu bg-base-200 h-full w-80 p-4 gap-2">
+                <ul class="menu bg-base-200 h-full w-80 p-4 gap-2 z-50">
                     <li>
                         <a href="{% url "core:home" %}" class="flex items-center gap-4">
                             <img src="{% static 'images/favicon.png' %}"
@@ -136,6 +142,12 @@
                         </li>
                         <li>
                             <a href="{% url 'stock:indices' %}" class="font-semibold py-3">Indices</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'stock:equityTopGainers' %}" class="font-semibold py-3">Gainers</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'stock:equityTopLosers' %}" class="font-semibold py-3">Losers</a>
                         </li>
                     {% else %}
                         <li>

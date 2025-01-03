@@ -42,7 +42,8 @@
             </a>
         {% endfor %}
         <div class="card bg-neutral text-neutral-content rounded-md h-20 md:h-[4.5rem]">
-            <a class="p-4 h-full flex flex-col justify-center items-start cursor-pointer space-y-1">
+            <a href="{% url "stock:equityTopLosers" %}"
+               class="p-4 h-full flex flex-col justify-center items-start cursor-pointer space-y-1">
                 <p class="font-bold text-white flex items-center justify-center">
                     See More
                     <svg xmlns="http://www.w3.org/2000/svg"

@@ -15,4 +15,12 @@ urlpatterns = [
         stock_views.get_categories_view,
         name="indicesGetCategories",
     ),
+    path(
+        "equity/topGainers/",
+        stock_views.equity_top_gainers_view,
+        name="equityTopGainers",
+    ),
+    path(
+        "equity/topLosers/", stock_views.equity_top_losers_view, name="equityTopLosers"
+    ),
 ]

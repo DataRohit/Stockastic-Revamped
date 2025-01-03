@@ -47,7 +47,7 @@ def get_top_equity_losers_20_quotes(stock_exchange: str) -> dict[str, dict]:
     """Function to get top equity losers 20 quotes
 
     Args:
-        stock_exchange (str): Stock exchange to get the top equity gainers 20 quotes
+        stock_exchange (str): Stock exchange to get the top equity losers 20 quotes
 
     Returns:
         dict[str, dict]: Dictionary containing the quotes of top equity losers 20
@@ -62,9 +62,9 @@ def get_top_equity_losers_20_quotes(stock_exchange: str) -> dict[str, dict]:
 
     # Exchange symbol
     if stock_exchange == "NSE":
-        exchange_symbol = ".NS"
+        exchange_symbol = "NS"
     elif stock_exchange == "BSE":
-        exchange_symbol = ".BO"
+        exchange_symbol = "BO"
 
     # Dict to store the quotes
     quotes = {}

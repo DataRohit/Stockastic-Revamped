@@ -3,7 +3,7 @@
 {% load static %}
 {% load humanize %}
 {% block title %}
-    Stock Indices
+    Top Losers
 {% endblock title %}
 {% block content %}
     <div class="mx-4 xl:mx-auto mt-8 xl:max-w-screen-xl xl:w-full xl:space-x-0 xl:justify-between">
@@ -21,23 +21,19 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <h1 class="text-3xl font-bold text-white w-full text-center mb-6">Stock Indices</h1>
+        <h1 class="text-3xl font-bold text-white w-full text-center mb-6">Top Losers</h1>
         <div class="flex flex-col gap-2 mb-6">
-            <form method="get" action="{% url 'stock:indices' %}">
+            <form method="get" action="{% url 'stock:equityTopLosers' %}">
                 <div class="mb-2 form-control">
                     {{ form.stock_exchange|add_label_class:"label text-white text-xs md:text-sm" }}
-                    {% render_field form.stock_exchange class="select bg-gray-50 text-gray-900 text-xs md:text-sm" onchange="updateCategories()" %}
-                </div>
-                <div class="mb-2 form-control">
-                    {{ form.category|add_label_class:"label text-white text-xs md:text-sm" }}
-                    {% render_field form.category class="select bg-gray-50 text-gray-900 text-xs md:text-sm" %}
+                    {% render_field form.stock_exchange class="select bg-gray-50 text-gray-900 text-xs md:text-sm" %}
                 </div>
                 <button type="submit" class="btn btn-success text-xs">Filter</button>
             </form>
         </div>
         <div class="flex flex-col gap-2 mt-8 mb-6">
             <div class="text-center mb-2">
-                <h3 class="text-xl font-bold text-gray-100">{{ stock_exchange }} - {{ category_name }}</h3>
+                <h3 class="text-xl font-bold text-gray-100">Stock Exchange - {{ stock_exchange }}</h3>
             </div>
             <div class="overflow-x-auto no-scrollbar">
                 <table class="z-0 table table-zebra table-xs lg:table-md table-pin-rows table-pin-cols min-w-full">
@@ -56,11 +52,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for symbol, quote in quotes.items %}
-                            <tr>
+                        {% for symbol, quote in losers.items %}
+                            <tr id="row-{{ forloop.counter }}">
                                 <th>{{ forloop.counter }}</th>
-                                <td>
-                                    <a href="{% url 'stock:indexQuote' symbol %}">
+                                <td id="name-{{ forloop.counter }}">
+                                    <a>
                                         {% if quote.longName %}
                                             {{ quote.longName|upper }}
                                         {% else %}
@@ -68,15 +64,15 @@
                                         {% endif %}
                                     </a>
                                 </td>
-                                <td class="{{ quote.colorClass }}">₹{{ quote.lastPrice|floatformat:2|intcomma }}</td>
-                                <td class="{{ quote.colorClass }}">
+                                <td id="price-{{ forloop.counter }}" class="{{ quote.colorClass }}">₹{{ quote.lastPrice|floatformat:2|intcomma }}</td>
+                                <td id="change-{{ forloop.counter }}" class="{{ quote.colorClass }}">
                                     {% if quote.dayChange >= 0 %}
                                         +{{ quote.dayChange|floatformat:2|intcomma }}
                                     {% else %}
                                         {{ quote.dayChange|floatformat:2|intcomma }}
                                     {% endif %}
                                 </td>
-                                <td class="{{ quote.colorClass }}">
+                                <td id="percent-{{ forloop.counter }}" class="{{ quote.colorClass }}">
                                     {% if quote.dayChangePercentage >= 0 %}
                                         +{{ quote.dayChangePercentage|floatformat:2|intcomma }}%
                                     {% else %}
@@ -112,40 +108,23 @@
 {% endblock content %}
 {% block script %}
     <script>
-        function updateCategories() {
-            const exchange = document.getElementById('{{ form.stock_exchange.id_for_label }}').value;
-            const categorySelect = document.getElementById('{{ form.category.id_for_label }}');
-
-            fetch(`{% url 'stock:indicesGetCategories' %}?exchange=${exchange}`)
-                .then(response => response.json())
-                .then(data => {
-                    categorySelect.innerHTML = '';
-                    data.categories.forEach(([value, label]) => {
-                        const option = new Option(label, value);
-                        categorySelect.add(option);
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
-        document.getElementById('{{ form.stock_exchange.id_for_label }}').addEventListener('change', updateCategories);
-
-        let socket;
-
-        function updateAllIndices(data) {
+        function updateAllLosers(data) {
             const quotes = data || {};
 
-            Object.entries(quotes).forEach(([symbol, quote]) => {
-                const rows = document.querySelectorAll('tr');
-                const row = Array.from(rows).find(row => {
-                    const nameCell = row.querySelector('td');
-                    return nameCell && nameCell.textContent.trim() === quote.longName;
-                });
+            Object.entries(quotes).forEach(([index, quote], idx) => {
+                const rowId = `row-${idx + 1}`;
+                const row = document.getElementById(rowId);
 
                 if (row) {
-                    const cells = row.querySelectorAll('td');
+                    const nameCell = document.getElementById(`name-${idx + 1}`);
+                    if (nameCell) {
+                        nameCell.innerHTML = `
+                            <a>
+                                ${quote.longName ? quote.longName.toUpperCase() : quote.shortName.toUpperCase()}
+                            </a>`;
+                    }
 
-                    const priceCell = cells[1];
+                    const priceCell = document.getElementById(`price-${idx + 1}`);
                     if (priceCell) {
                         priceCell.textContent = `₹${parseFloat(quote.lastPrice).toLocaleString('en-IN', {
                             minimumFractionDigits: 2,
@@ -153,7 +132,7 @@
                         })}`;
                     }
 
-                    const changeCell = cells[2];
+                    const changeCell = document.getElementById(`change-${idx + 1}`);
                     if (changeCell) {
                         const change = parseFloat(quote.dayChange).toLocaleString('en-IN', {
                             minimumFractionDigits: 2,
@@ -162,7 +141,7 @@
                         changeCell.textContent = `${quote.dayChange >= 0 ? '+' : ''}${change}`;
                     }
 
-                    const percentCell = cells[3];
+                    const percentCell = document.getElementById(`percent-${idx + 1}`);
                     if (percentCell) {
                         const dayChangePercentage = parseFloat(quote.dayChangePercentage);
                         percentCell.textContent = `${dayChangePercentage >= 0 ? '+' : ''}${dayChangePercentage.toFixed(2)}%`;
@@ -181,8 +160,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             {% if is_market_open %}
-                const socketUrl = `wss://${window.location.host}/ws/indexQuotes/?stock_exchange={{ stock_exchange }}&category={{ category }}`;
-                socket = new WebSocket(socketUrl);
+                const socketUrl = `wss://${window.location.host}/ws/topEquityLosersQuotes20/?stock_exchange={{ stock_exchange }}`;
+                const socket = new WebSocket(socketUrl);
 
                 socket.onopen = function () {
                     console.log("WebSocket connection established");
@@ -191,7 +170,7 @@
                 socket.onmessage = function (event) {
                     try {
                         const data = JSON.parse(event.data);
-                        updateAllIndices(data);
+                        updateAllLosers(data);
                     } catch (error) {
                         console.error("Error parsing WebSocket message:", error);
                     }

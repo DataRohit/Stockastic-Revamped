@@ -349,6 +349,27 @@ class TopEquityGainersQuotes20Consumer(AsyncWebsocketConsumer):
             # Stop sending updates
             self.keep_sending = False
 
+    # Static method to parse query string
+    @staticmethod
+    def parse_query_string(query_string: bytes) -> dict:
+        """Parse the query string and return the query parameters as a dictionary.
+
+        Args:
+            query_string (bytes): The query string from the connection scope.
+
+        Returns:
+            dict: The query parameters as a dictionary.
+        """
+
+        # Import the required function
+        from urllib.parse import parse_qs
+
+        # Decode and parse the query string
+        query_params = parse_qs(query_string.decode())
+
+        # Convert list values to single values (assuming single-value params)
+        return {key: value[0] for key, value in query_params.items()}
+
 
 # TopEquityLosersQuotes20Consumer class
 class TopEquityLosersQuotes20Consumer(AsyncWebsocketConsumer):
@@ -396,3 +417,24 @@ class TopEquityLosersQuotes20Consumer(AsyncWebsocketConsumer):
 
             # Stop sending updates
             self.keep_sending = False
+
+    # Static method to parse query string
+    @staticmethod
+    def parse_query_string(query_string: bytes) -> dict:
+        """Parse the query string and return the query parameters as a dictionary.
+
+        Args:
+            query_string (bytes): The query string from the connection scope.
+
+        Returns:
+            dict: The query parameters as a dictionary.
+        """
+
+        # Import the required function
+        from urllib.parse import parse_qs
+
+        # Decode and parse the query string
+        query_params = parse_qs(query_string.decode())
+
+        # Convert list values to single values (assuming single-value params)
+        return {key: value[0] for key, value in query_params.items()}

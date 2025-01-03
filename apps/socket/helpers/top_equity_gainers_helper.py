@@ -62,9 +62,9 @@ def get_top_equity_gainers_20_quotes(stock_exchange: str) -> dict[str, dict]:
 
     # Exchange symbol
     if stock_exchange == "NSE":
-        exchange_symbol = ".NS"
+        exchange_symbol = "NS"
     elif stock_exchange == "BSE":
-        exchange_symbol = ".BO"
+        exchange_symbol = "BO"
 
     # Dict to store the quotes
     quotes = {}
