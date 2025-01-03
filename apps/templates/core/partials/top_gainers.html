@@ -1,0 +1,140 @@
+{% load humanize %}
+<h1 class="text-xl font-bold text-white w-full text-center mb-4">Top Gainers</h1>
+<div class="flex items-center justify-center gap-4 m-4 xl:max-w-screen">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 text-xxs md:text-xs text-gray-300 xl:max-w-screen-xl w-full"
+         id="dashboard-top-gainers">
+        {% for symbol, quote in gainers.items %}
+            <a class="card bg-neutral text-neutral-content rounded-md h-20 md:h-[4.5rem] cursor-pointer"
+               id="top-gainer-card-{{ forloop.counter }}">
+                <div class="p-4 h-full flex flex-col justify-center items-start space-y-1">
+                    <div class="flex items-center justify-between w-full space-x-2">
+                        <p class="font-bold text-white"
+                           id="top-gainer-name-{{ forloop.counter }}">
+                            {% if quote.longName %}
+                                {{ quote.longName|upper }}
+                            {% else %}
+                                {{ quote.shortName|upper }}
+                            {% endif %}
+                        </p>
+                        <span class="text-blue-100 text-semibold">NSE</span>
+                    </div>
+                    <div class="flex items-center justify-between w-full">
+                        <p class="quote-price {{ quote.colorClass }}"
+                           id="top-gainer-price-{{ forloop.counter }}">{{ quote.lastPrice|floatformat:2|intcomma }}</p>
+                        <span class="quote-change {{ quote.colorClass }}"
+                              id="top-gainer-change-{{ forloop.counter }}">
+                            {% if quote.dayChange >= 0 %}
+                                +{{ quote.dayChange|floatformat:2|intcomma }}
+                            {% else %}
+                                {{ quote.dayChange|floatformat:2|intcomma }}
+                            {% endif %}
+                        </span>
+                        <span class="quote-percent {{ quote.colorClass }}"
+                              id="top-gainer-percent-{{ forloop.counter }}">
+                            {% if quote.dayChangePercentage >= 0 %}
+                                +{{ quote.dayChangePercentage|floatformat:2|intcomma }}%
+                            {% else %}
+                                {{ quote.dayChangePercentage|floatformat:2|intcomma }}%
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+        <div class="card bg-neutral text-neutral-content rounded-md h-20 md:h-[4.5rem]">
+            <a class="p-4 h-full flex flex-col justify-center items-start cursor-pointer space-y-1">
+                <p class="font-bold text-white flex items-center justify-center">
+                    See More
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="2"
+                         stroke="currentColor"
+                         class="h-4 w-4 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
+                </p>
+                <p class="text-gray-300 text-semibold">Gainers</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% block script %}
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        {% if is_market_open %}
+            if ("WebSocket" in window) {
+                const socketUrl = `wss://${window.location.host}/ws/topEquityGainersQuotes/`;
+                const socket = new WebSocket(socketUrl);
+
+                socket.onerror = function(error) {
+                    console.error('WebSocket Error:', error);
+                };
+
+                socket.onopen = function () {
+                    console.log("WebSocket connection established");
+                };
+
+                socket.onmessage = function (event) {
+                    const quotes = JSON.parse(event.data);
+
+                    Object.entries(quotes).forEach(([symbol, quote], index) => {
+                        const uniqueId = index + 1;
+
+                        const card = document.getElementById(`top-gainer-card-${uniqueId}`);
+                        const nameElement = document.getElementById(`top-gainer-name-${uniqueId}`);
+                        const priceElement = document.getElementById(`top-gainer-price-${uniqueId}`);
+                        const changeElement = document.getElementById(`top-gainer-change-${uniqueId}`);
+                        const percentElement = document.getElementById(`top-gainer-percent-${uniqueId}`);
+
+                        if (nameElement) {
+                            nameElement.textContent = quote.longName ? quote.longName.toUpperCase() : quote.shortName.toUpperCase();
+                        }
+
+                        if (priceElement) {
+                            priceElement.textContent = parseFloat(quote.lastPrice).toLocaleString('en-IN', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            });
+
+                            const colorClass = quote.dayChange >= 0 ? 'text-green-500' : 'text-red-500';
+
+                            ['text-green-500', 'text-red-500'].forEach(cls => {
+                                priceElement.classList.remove(cls);
+                                changeElement?.classList.remove(cls);
+                                percentElement?.classList.remove(cls);
+                            });
+
+                            priceElement.classList.add(colorClass);
+                            changeElement?.classList.add(colorClass);
+                            percentElement?.classList.add(colorClass);
+                        }
+
+                        if (changeElement) {
+                            const change = parseFloat(quote.dayChange);
+                            changeElement.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}`;
+                        }
+
+                        if (percentElement) {
+                            const dayChangePercentage = parseFloat(quote.dayChangePercentage);
+                            percentElement.textContent = `${dayChangePercentage >= 0 ? '+' : ''}${dayChangePercentage.toFixed(2)}%`;
+                        }
+                    });
+                };
+
+                socket.onclose = function (event) {
+                    console.error("WebSocket connection closed:", event);
+                };
+
+                socket.onerror = function (error) {
+                    console.error("WebSocket error:", error);
+                };
+            } else {
+                console.error("WebSocket not supported in this browser.");
+            }
+        {% else %}
+            console.log("Market is closed. Not connecting to WebSocket.");
+        {% endif %}
+    });
+    </script>
+{% endblock script %}

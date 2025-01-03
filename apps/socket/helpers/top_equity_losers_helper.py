@@ -15,7 +15,7 @@ def get_top_equity_losers_quotes() -> dict[str, dict]:
     """
 
     # Get the top losers
-    top_losers = nse_get_top_losers()["symbol"][:4]
+    top_losers = nse_get_top_losers()["symbol"]
 
     # Dict to store the quotes
     quotes = {}

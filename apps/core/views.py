@@ -2,7 +2,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from apps.socket.helpers import get_top_index_quotes
+from apps.socket.helpers import (
+    get_top_equity_gainers_quotes,
+    get_top_equity_losers_quotes,
+    get_top_index_quotes,
+)
 from apps.socket.utils import is_market_open
 
 
@@ -36,13 +40,12 @@ def dashboard_view(request):
         HttpResponse: The response object
     """
 
-    # Get the top index quotes
-    top_index_quotes = get_top_index_quotes()
-
     # Create a context dictionary
     context = {
         "user": request.user,
-        "quotes": top_index_quotes,
+        "indices": get_top_index_quotes(),
+        "gainers": get_top_equity_gainers_quotes(),
+        "losers": get_top_equity_losers_quotes(),
         "is_market_open": is_market_open(),
     }
 
