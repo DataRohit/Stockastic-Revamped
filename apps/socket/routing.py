@@ -5,7 +5,9 @@ from apps.socket.consumers import (
     IndexQuotesConsumer,
     QuoteChartConsumer,
     QuoteConsumer,
+    TopEquityGainersQuotes20Consumer,
     TopEquityGainersQuotesConsumer,
+    TopEquityLosersQuotes20Consumer,
     TopEquityLosersQuotesConsumer,
     TopIndexQuotesConsumer,
 )
@@ -32,5 +34,15 @@ websocket_urlpatterns = [
         "ws/topEquityLosersQuotes/",
         TopEquityLosersQuotesConsumer.as_asgi(),
         name="topEquityLosersQuotes",
+    ),
+    path(
+        "ws/topEquityGainersQuotes20/",
+        TopEquityGainersQuotes20Consumer.as_asgi(),
+        name="topEquityGainersQuotes20",
+    ),
+    path(
+        "ws/topEquityLosersQuotes20/",
+        TopEquityLosersQuotes20Consumer.as_asgi(),
+        name="topEquityLosersQuotes20",
     ),
 ]

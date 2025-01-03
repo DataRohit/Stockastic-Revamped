@@ -8,7 +8,9 @@ from apps.socket.helpers import (
     generate_candlestick_chart,
     get_index_quotes,
     get_quote,
+    get_top_equity_gainers_20_quotes,
     get_top_equity_gainers_quotes,
+    get_top_equity_losers_20_quotes,
     get_top_equity_losers_quotes,
     get_top_index_quotes,
 )
@@ -284,6 +286,102 @@ class TopEquityLosersQuotesConsumer(AsyncWebsocketConsumer):
             while self.keep_sending:
                 # Fetch the top equity losers quotes
                 quotes_dict = get_top_equity_losers_quotes()
+
+                # Send the quotes to the WebSocket client
+                await self.send(json.dumps(quotes_dict))
+
+                # Wait for 2.0 second before sending the next update
+                await anyio.sleep(2.0)
+
+        # If any exception occurs
+        except Exception as e:
+            # Print the error
+            print(f"Error in send_quotes: {e}")
+
+            # Stop sending updates
+            self.keep_sending = False
+
+
+# TopEquityGainersQuotes20Consumer class
+class TopEquityGainersQuotes20Consumer(AsyncWebsocketConsumer):
+    # Connect method
+    async def connect(self):
+        # Accept the connection
+        await self.accept()
+
+        # Parse query parameters from the connection scope
+        self.query_params = self.parse_query_string(self.scope["query_string"])
+
+        # Flag to control the updates
+        self.keep_sending = True
+
+        # Send initial data when connection is established
+        await self.send_quotes()
+
+    # Disconnect method
+    async def disconnect(self, close_code):
+        # Stop sending updates on disconnect
+        self.keep_sending = False
+
+    # Receive method
+    async def send_quotes(self):
+        # Try
+        try:
+            # Send data to the WebSocket client
+            while self.keep_sending:
+                # Get values from the query parameters
+                stock_exchange = self.query_params.get("stock_exchange", "NSE")
+
+                # Fetch the top equity gainers quotes
+                quotes_dict = get_top_equity_gainers_20_quotes(stock_exchange)
+
+                # Send the quotes to the WebSocket client
+                await self.send(json.dumps(quotes_dict))
+
+                # Wait for 2.0 second before sending the next update
+                await anyio.sleep(2.0)
+
+        # If any exception occurs
+        except Exception as e:
+            # Print the error
+            print(f"Error in send_quotes: {e}")
+
+            # Stop sending updates
+            self.keep_sending = False
+
+
+# TopEquityLosersQuotes20Consumer class
+class TopEquityLosersQuotes20Consumer(AsyncWebsocketConsumer):
+    # Connect method
+    async def connect(self):
+        # Accept the connection
+        await self.accept()
+
+        # Parse query parameters from the connection scope
+        self.query_params = self.parse_query_string(self.scope["query_string"])
+
+        # Flag to control the updates
+        self.keep_sending = True
+
+        # Send initial data when connection is established
+        await self.send_quotes()
+
+    # Disconnect method
+    async def disconnect(self, close_code):
+        # Stop sending updates on disconnect
+        self.keep_sending = False
+
+    # Receive method
+    async def send_quotes(self):
+        # Try
+        try:
+            # Send data to the WebSocket client
+            while self.keep_sending:
+                # Get values from the query parameters
+                stock_exchange = self.query_params.get("stock_exchange", "NSE")
+
+                # Fetch the top equity losers quotes
+                quotes_dict = get_top_equity_losers_20_quotes(stock_exchange)
 
                 # Send the quotes to the WebSocket client
                 await self.send(json.dumps(quotes_dict))
