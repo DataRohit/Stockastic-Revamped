@@ -53,11 +53,11 @@ def get_top_equity_gainers_20_quotes(stock_exchange: str) -> dict[str, dict]:
         dict[str, dict]: Dictionary containing the quotes of top equity gainers 20
     """
 
-    # Get the top gainers 20
+    # Get the top gainers 22
     top_gainers = (
         nse_get_advances_declines()
         .sort_values(by="pChange", ascending=False)
-        .head(20)["symbol"]
+        .head(22)["symbol"]
     )
 
     # Exchange symbol
@@ -84,8 +84,8 @@ def get_top_equity_gainers_20_quotes(stock_exchange: str) -> dict[str, dict]:
             # Get the index and data
             index, data = future.result()
 
-            # If data is available
-            if data:
+            # If data is available and less than 20
+            if data and len(quotes) < 20:
                 # Update the quotes
                 quotes[index] = data
 
