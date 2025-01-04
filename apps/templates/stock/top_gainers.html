@@ -56,7 +56,7 @@
                             <tr id="row-{{ forloop.counter }}">
                                 <th>{{ forloop.counter }}</th>
                                 <td id="name-{{ forloop.counter }}">
-                                    <a>
+                                    <a href="{% url 'stock:equityQuote' symbol %}">
                                         {% if quote.longName %}
                                             {{ quote.longName|upper }}
                                         {% else %}
@@ -118,8 +118,9 @@
                 if (row) {
                     const nameCell = document.getElementById(`name-${idx + 1}`);
                     if (nameCell) {
+                        const symbolUrl = "{% url 'stock:equityQuote' 'SYMBOL_PLACEHOLDER' %}".replace('SYMBOL_PLACEHOLDER', quote.symbol);
                         nameCell.innerHTML = `
-                            <a>
+                            <a href="${symbolUrl}">
                                 ${quote.longName ? quote.longName.toUpperCase() : quote.shortName.toUpperCase()}
                             </a>`;
                     }

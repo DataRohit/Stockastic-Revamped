@@ -23,4 +23,5 @@ urlpatterns = [
     path(
         "equity/topLosers/", stock_views.equity_top_losers_view, name="equityTopLosers"
     ),
+    path("equity/<str:symbol>/", stock_views.equity_quote_view, name="equityQuote"),
 ]

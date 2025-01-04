@@ -4,7 +4,8 @@
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 text-xxs md:text-xs text-gray-300 xl:max-w-screen-xl w-full"
          id="dashboard-top-gainers">
         {% for symbol, quote in gainers.items %}
-            <a class="card bg-neutral text-neutral-content rounded-md h-20 md:h-[4.5rem] cursor-pointer"
+            <a href="{% url 'stock:equityQuote' symbol %}"
+               class="card bg-neutral text-neutral-content rounded-md h-20 md:h-[4.5rem] cursor-pointer"
                id="top-gainer-card-{{ forloop.counter }}">
                 <div class="p-4 h-full flex flex-col justify-center items-start space-y-1">
                     <div class="flex items-center justify-between w-full space-x-2">

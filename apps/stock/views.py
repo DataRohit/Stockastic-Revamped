@@ -269,3 +269,35 @@ def equity_top_losers_view(request):
 
     # Render the top_losers.html template
     return render(request, "stock/top_losers.html", context)
+
+
+# Equity quote view
+@login_required
+def equity_quote_view(request, symbol: str):
+    """Equity quote view
+
+    Args:
+        request (HttpRequest): The request object
+        symbol (str): The symbol of the equity
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # Get the equity quote
+    quote = get_quote(symbol)[-1]
+
+    # Generate the candle stick chart
+    chart = generate_candlestick_chart(symbol)
+
+    # Create a context dictionary
+    context = {
+        "user": request.user,
+        "symbol": symbol,
+        "quote": quote,
+        "is_market_open": is_market_open(),
+        "chart": chart.to_html(),
+    }
+
+    # Render the home.html template
+    return render(request, "stock/equity_quote.html", context)
