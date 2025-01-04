@@ -2,7 +2,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from apps.socket.constants import BSE_CATEGORIES, NSE_CATEGORIES
 from apps.socket.helpers import (
@@ -287,13 +288,33 @@ def equity_quote_view(request, symbol: str):
     # Get the equity quote
     quote = get_quote(symbol)[-1]
 
+    # If the the symbol was invalid
+    if quote is None or quote["quoteType"] != "EQUITY":
+        # Add an error message
+        messages.error(request, "Equity Stock Not Found!")
+
+        # Redirect to dashboard page
+        return redirect(reverse("core:dashboard"))
+
     # Generate the candle stick chart
     chart = generate_candlestick_chart(symbol)
+
+    # Get the symbol from the quote
+    symbol = quote["symbol"]
+
+    # Extract the base symbol
+    base_symbol = symbol.split(".")[0]
+
+    # Create symbol for nse and bse
+    nse_symbol = base_symbol + ".NS"
+    bse_symbol = base_symbol + ".BO"
 
     # Create a context dictionary
     context = {
         "user": request.user,
         "symbol": symbol,
+        "nse_symbol": nse_symbol,
+        "bse_symbol": bse_symbol,
         "quote": quote,
         "is_market_open": is_market_open(),
         "chart": chart.to_html(),
