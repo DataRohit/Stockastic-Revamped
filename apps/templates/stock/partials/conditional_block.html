@@ -6,7 +6,7 @@
             <span class="mr-2">
                 {% if value %}
                     {% if value|stringformat:"s"|first in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
-                        {{ value }}
+                        {{ value|upper }}
                     {% else %}
                         {% with num_format=value|floatformat:"0" %}
                             {% if num_format == value|stringformat:"s" %}

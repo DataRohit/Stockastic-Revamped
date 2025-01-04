@@ -118,6 +118,8 @@
         <div class="w-full mb-4"></div>
         {% include "stock/partials/two_col_grid.html" with title1="Market Cap" value1=quote.marketCap title2="Shares" value1=quote.shares %}
     </div>
+{% endblock content %}
+{% block script %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const isMarketOpen = {{ is_market_open|lower }};
@@ -359,4 +361,4 @@
             };
         });
     </script>
-{% endblock content %}
+{% endblock script %}

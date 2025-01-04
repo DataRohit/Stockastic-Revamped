@@ -51,5 +51,429 @@
                 NSE
             </a>
         </div>
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Trading Information</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">Last Price</div>
+                    <div id="lastPrice"
+                         class="stat-value text-lg lg:text-xl {{ quote.colorClass }} flex items-center">
+                        <span class="mr-2">{{ quote.lastPrice|floatformat:2|intcomma }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2.5"
+                             stroke="currentColor"
+                             class="w-5 h-5 lg:w-6 lg:h-6 arrow-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">Day Change</div>
+                    <div id="dayChange"
+                         class="stat-value text-lg lg:text-xl {{ quote.colorClass }} flex items-center">
+                        <span class="mr-2">{{ quote.dayChange|floatformat:2|intcomma }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2.5"
+                             stroke="currentColor"
+                             class="w-5 h-5 lg:w-6 lg:h-6 arrow-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">Percent Change</div>
+                    <div id="dayChangePercentage"
+                         class="stat-value text-lg lg:text-xl {{ quote.colorClass }} flex items-center">
+                        <span class="mr-2">{{ quote.dayChangePercentage|floatformat:2|intcomma }}%</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2.5"
+                             stroke="currentColor"
+                             class="w-5 h-5 lg:w-6 lg:h-6 arrow-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/four_col_grid.html" with title1="Previous Close" value1=quote.previousClose title2="Day Open" value2=quote.open title3="Day High" value3=quote.dayHigh title4="Day Low" value4=quote.dayLow %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/three_col_grid.html" with title1="Volume" value1=quote.volume title2="Last Volume" value2=quote.lastVolume title3="Market Cap" value3=quote.marketCap %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Analyst Coverage</h3>
+        {% include "stock/partials/three_col_grid.html" with title1="Number of Analysts" value1=quote.numberOfAnalystOpinions title2="Recommendation" value2=quote.recommendationKey title3="Recommendation Mean" value3=quote.recommendationMean %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/four_col_grid.html" with title1="Target Mean Price" value1=quote.targetMeanPrice title2="Target Median Price" value2=quote.targetMedianPrice title3="Target High Price" value3=quote.targetHighPrice title4="Target Low Price" value4=quote.targetLowPrice %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Price Statistics</h3>
+        {% include "stock/partials/four_col_grid.html" with title1="52 Week High" value1=quote.fiftyTwoWeekHigh title2="52 Week Low" value2=quote.fiftyTwoWeekLow title3="50 Day Average" value3=quote.fiftyDayAverage title4="200 Day Average" value4=quote.twoHundredDayAverage %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/four_col_grid.html" with title1="% Year Change" value1=quote.yearChange title2="Beta" value2=quote.beta title3="% 52 Week Change" value3=quote.52WeekChange title4="% S&P 52 Week Change" value4=quote.SandP52WeekChange %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Volume Statistics</h3>
+        {% include "stock/partials/three_col_grid.html" with title1="Avg Volume" value1=quote.averageVolume title2="10 Day Avg Volume" value2=quote.averageVolume10days title3="Three Month Average Volume" value3=quote.threeMonthAverageVolume %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Financial Performance</h3>
+        {% include "stock/partials/two_col_grid.html" with title1="Total Revenue" value1=quote.totalRevenue title2="EBITDA" value2=quote.ebitda %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/four_col_grid.html" with title1="% EBITDA Margin" value1=quote.ebitdaMargins title2="% Operating Margins" value2=quote.operatingMargins title3="% Gross Margins" value3=quote.grossMargins title4="% Net Profit Margin" value4=quote.profitMargins %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/two_col_grid.html" with title1="% Return on Assets" value1=quote.returnOnAssets title2="% Return on Equity" value2=quote.returnOnEquity %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/two_col_grid.html" with title1="Free Cash Flow" value1=quote.freeCashflow title2="Operating Cash Flow" value2=quote.operatingCashflow %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/three_col_grid.html" with title1="% Earnings Growth" value1=quote.earningsGrowth title2="% Revenue Growth" value2=quote.revenueGrowth title3="% Earnings Quarterly Growth" value3=quote.earningsQuarterlyGrowth %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Dividend Information</h3>
+        {% include "stock/partials/four_col_grid.html" with title1="Dividend Rate" value1=quote.dividendRate title2="% Dividend Yield" value2=quote.dividendYield title3="Ex-Dividend Date" value3=quote.exDividendDate title4="% Payout Ratio" value4=quote.payoutRatio %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/three_col_grid.html" with title1="% Five Year Average Dividend Yield" value1=quote.fiveYearAvgDividendYield title2="Last Dividend Value" value2=quote.lastDividendValue title3="Last Dividend Date" value3=quote.lastDividendDate %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Financial Ratios</h3>
+        {% include "stock/partials/four_col_grid.html" with title1="PE Ratio (Trailing)" value1=quote.trailingPE title2="Forward PE" value2=quote.forwardPE title3="Price to Sales (TTM)" value3=quote.priceToSalesTrailing12Months title4="Price to Book" value4=quote.priceToBook %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/three_col_grid.html" with title1="Enterprise Value" value1=quote.enterpriseValue title2="Enterprise to Revenue" value2=quote.enterpriseToRevenue title3="Enterprise to EBITDA" value3=quote.enterpriseToEbitda %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/three_col_grid.html" with title1="Quick Ratios" value1=quote.quickRatio title2="Current Ratio" value2=quote.currentRatio title3="Debt to Equity" value3=quote.debtToEquity %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Share Statistics</h3>
+        {% include "stock/partials/two_col_grid.html" with title1="Shares Outstanding" value1=quote.sharesOutstanding title2="Float Shares" value2=quote.floatShares %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/two_col_grid.html" with title1="% Held by Insiders" value1=quote.heldPercentInsiders title2="% Held by Institutions" value2=quote.heldPercentInstitutions %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/three_col_grid.html" with title1="Book Value per Share" value1=quote.bookValue title2="Total Cash per Share" value2=quote.totalCashPerShare title3="Revenue per Share" value3=quote.revenuePerShare %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Stock Overview</h3>
+        {% include "stock/partials/three_col_grid.html" with title1="Symbol" value1=quote.symbol title2="Short Name" value2=quote.shortName title3="Long Name" value3=quote.longName %}
+        <div class="w-full mb-4"></div>
+        {% include "stock/partials/three_col_grid.html" with title1="Exchange" value1=quote.exchange title2="Currency" value2=quote.currency title3="Quote Type" value3=quote.quoteType %}
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-2">Contact Information</h3>
+        <div class="grid grid-cols-1">
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">Address</div>
+                    <div class="stat-value text-lg lg:text-xl flex items-center">
+                        <span class="mr-2">{{ quote.address1 }}, {{ quote.address2 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full mb-4"></div>
+        <div class="grid grid-cols-3 gap-4">
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">City</div>
+                    <div class="stat-value text-lg lg:text-xl flex items-center">
+                        <span class="mr-2">{{ quote.city }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">Country</div>
+                    <div class="stat-value text-lg lg:text-xl flex items-center">
+                        <span class="mr-2">{{ quote.country }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stats shadow-md">
+                <div class="stat">
+                    <div class="stat-title text-xs lg:text-sm font-bold">ZipCode</div>
+                    <div class="stat-value text-lg lg:text-xl flex items-center">
+                        <span class="mr-2">{{ quote.zip }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-0.5 border-2 rounded border-gray-400 bg-gray-400 my-5"></div>
+        <h3 class="text-lg lg:text-xl font-bold text-white text-center mt-6 mb-3">Key Management</h3>
+        <div class="overflow-x-auto no-scrollbar">
+            <table class="z-0 table table-zebra table-xs lg:table-md table-pin-rows table-pin-cols min-w-full">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <td>Name</td>
+                        <td>Title</td>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for officer in quote.companyOfficers %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <td>{{ officer.name }}</td>
+                            <td>{{ officer.title }}</td>
+                            <th>{{ forloop.counter }}</th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <td>Name</td>
+                        <td>Title</td>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 {% endblock content %}
+{% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const isMarketOpen = {{ is_market_open|lower }};
+            const symbol = "{{ symbol }}";
+
+            if (isMarketOpen) {
+                connectWebSocket();
+            } else {
+                connectWebSocketOnce();
+            }
+
+            function connectWebSocket() {
+                if (!('WebSocket' in window)) {
+                    console.error("WebSocket not supported in this browser.");
+                    return;
+                }
+
+                const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/`);
+
+                ws.onmessage = function (event) {
+                    try {
+                        let cleanData = event.data;
+                        if (typeof cleanData === 'string') {
+                            cleanData = cleanData.replace(/^\ufeff/g, '');
+                            cleanData = cleanData.trim();
+                        }
+
+                        let parsedData;
+                        if (typeof cleanData === 'object' && cleanData !== null) {
+                            parsedData = cleanData;
+                        } else {
+                            try {
+                                parsedData = JSON.parse(cleanData);
+                            } catch (parseError) {
+                                parsedData = eval('(' + cleanData + ')');
+                            }
+                        }
+
+                        let quoteData;
+                        if (Array.isArray(parsedData)) {
+                            quoteData = parsedData[1];
+                        } else {
+                            quoteData = parsedData;
+                        }
+
+                        if (quoteData && typeof quoteData === 'object') {
+                            updateQuote(quoteData);
+                        } else {
+                            throw new Error('Invalid quote data structure');
+                        }
+
+                    } catch (error) {
+                        console.error('Data processing error:', error);
+                        console.error('Raw data causing error:', event.data);
+                    }
+                };
+
+                ws.onerror = function (error) {
+                    console.error('WebSocket error:', error);
+                };
+
+                ws.onclose = function () {
+                    console.log('WebSocket connection closed');
+                };
+            }
+
+            function connectWebSocketOnce() {
+                if (!('WebSocket' in window)) {
+                    console.error("WebSocket not supported in this browser.");
+                    return;
+                }
+
+                const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/`);
+
+                ws.onmessage = function (event) {
+                    try {
+                        let cleanData = event.data;
+                        if (typeof cleanData === 'string') {
+                            cleanData = cleanData.replace(/^\ufeff/g, '');
+                            cleanData = cleanData.trim();
+                        }
+
+                        let parsedData;
+                        if (typeof cleanData === 'object' && cleanData !== null) {
+                            parsedData = cleanData;
+                        } else {
+                            try {
+                                parsedData = JSON.parse(cleanData);
+                            } catch (parseError) {
+                                parsedData = eval('(' + cleanData + ')');
+                            }
+                        }
+
+                        let quoteData;
+                        if (Array.isArray(parsedData)) {
+                            quoteData = parsedData[1];
+                        } else {
+                            quoteData = parsedData;
+                        }
+
+                        if (quoteData && typeof quoteData === 'object') {
+                            updateQuote(quoteData);
+                            ws.close();
+                        } else {
+                            throw new Error('Invalid quote data structure');
+                        }
+
+                    } catch (error) {
+                        console.error('Data processing error:', error);
+                        console.error('Raw data causing error:', event.data);
+                    }
+                };
+
+                ws.onerror = function (error) {
+                    console.error('WebSocket error:', error);
+                };
+
+                ws.onclose = function () {
+                    console.log('WebSocket connection closed');
+                };
+            }
+
+            function updateQuote(data) {
+                try {
+                    const lastPriceElement = document.querySelector('#lastPrice');
+                    if (lastPriceElement) {
+                        const lastPrice = parseFloat(data.lastPrice).toLocaleString('en-IN', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+                        lastPriceElement.querySelector('span').textContent = lastPrice;
+                        updateElementColor(lastPriceElement, data.dayChange);
+                    }
+
+                    const dayChangeElement = document.querySelector('#dayChange');
+                    if (dayChangeElement) {
+                        const dayChange = parseFloat(data.dayChange).toLocaleString('en-IN', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+                        const formattedDayChange = data.dayChange >= 0 ? `+${dayChange}` : dayChange;
+                        dayChangeElement.querySelector('span').textContent = formattedDayChange;
+                        updateElementColor(dayChangeElement, data.dayChange);
+                    }
+
+                    const dayChangePercentageElement = document.querySelector('#dayChangePercentage');
+                    if (dayChangePercentageElement) {
+                        const dayChangePercentage = parseFloat(data.dayChangePercentage).toFixed(2);
+                        const formattedPercentage = data.dayChange >= 0 ? `+${dayChangePercentage}` : dayChangePercentage;
+                        dayChangePercentageElement.querySelector('span').textContent = `${formattedPercentage}%`;
+                        updateElementColor(dayChangePercentageElement, data.dayChange);
+                    }
+
+                    updateArrows(data.dayChange);
+                } catch (error) {
+                    console.error('Error updating quote display:', error);
+                }
+            }
+
+            function updateElementColor(element, value) {
+                element.classList.remove('text-green-500', 'text-red-500');
+                element.classList.add(value >= 0 ? 'text-green-500' : 'text-red-500');
+            }
+
+            function updateArrows(value) {
+                const arrows = document.querySelectorAll('.arrow-icon');
+                arrows.forEach(arrow => {
+                    if (value >= 0) {
+                        arrow.innerHTML = `
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+                        `;
+                    } else {
+                        arrow.innerHTML = `
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+                        `;
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!('WebSocket' in window)) {
+                console.error("WebSocket not supported in this browser.");
+                return;
+            }
+
+            const isMarketOpen = {{ is_market_open|lower }};
+            if (!isMarketOpen) {
+                console.log("Market is closed. Not connecting to WebSocket.");
+                return;
+            }
+
+            const symbol = "{{ symbol }}";
+            const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/chart/`);
+
+            ws.onmessage = function (event) {
+                try {
+                    const chartContainer = document.getElementById('chart-container');
+                    if (!chartContainer) {
+                        console.error('Chart container element not found');
+                        return;
+                    }
+
+                    const oldScripts = document.querySelectorAll('script[data-chart-script]');
+                    oldScripts.forEach(script => script.remove());
+
+                    chartContainer.innerHTML = event.data;
+
+                    const scripts = chartContainer.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.type = script.type || 'text/javascript';
+                        newScript.setAttribute('data-chart-script', 'true');
+
+                        if (script.src) {
+                            newScript.src = script.src;
+                            newScript.async = false;
+                            document.head.appendChild(newScript);
+                        } else {
+                            newScript.textContent = script.textContent;
+                            document.body.appendChild(newScript);
+                        }
+
+                        script.remove();
+                    });
+                } catch (error) {
+                    console.error('Error rendering chart:', error);
+                }
+            };
+
+
+            ws.onerror = function (error) {
+                console.error('WebSocket error:', error);
+            };
+
+            ws.onclose = function () {
+                console.log('WebSocket connection closed');
+            };
+        });
+    </script>
+{% endblock script %}
