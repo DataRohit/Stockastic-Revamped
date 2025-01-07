@@ -23,9 +23,10 @@ class StockIndexWatchlist(admin.ModelAdmin):
     """
 
     # Attributes
-    list_display = ("id", "user", "symbol")
+    list_display = ("id", "user", "symbol", "type")
     list_display_links = ("id", "user")
-    list_filter = ("user", "symbol")
+    list_filter = ("user", "symbol", "type")
     search_fields = ("user__username", "symbol")
-    ordering = ("user", "symbol")
+    ordering = ("user", "symbol", "type")
     autocomplete_fields = ("user",)
+    readonly_fields = ("type",)

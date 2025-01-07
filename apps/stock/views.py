@@ -363,7 +363,7 @@ def index_quote_bookmark_view(request, symbol: str):
 
     # Get the stock index watchlist
     _, created = StockIndexWatchlist.objects.get_or_create(
-        user=request.user, symbol=symbol
+        user=request.user, symbol=symbol, type="INDEX"
     )
 
     # If the stock index watchlist was created
@@ -395,7 +395,7 @@ def index_quote_unbookmark_view(request, symbol: str):
 
     # Get the stock index watchlist
     stock_index_watchlist = StockIndexWatchlist.objects.filter(
-        user=request.user, symbol=symbol
+        user=request.user, symbol=symbol, type="INDEX"
     )
 
     # If the stock index watchlist exists
@@ -451,7 +451,7 @@ def equity_bookmark_view(request, symbol: str):
 
     # Get the stock equity watchlist
     _, created = StockIndexWatchlist.objects.get_or_create(
-        user=request.user, symbol=nse_symbol
+        user=request.user, symbol=nse_symbol, type="EQUITY"
     )
 
     # If the stock equity watchlist was created
@@ -466,7 +466,7 @@ def equity_bookmark_view(request, symbol: str):
 
     # Get the stock equity watchlist
     _, created = StockIndexWatchlist.objects.get_or_create(
-        user=request.user, symbol=bse_symbol
+        user=request.user, symbol=bse_symbol, type="EQUITY"
     )
 
     # If the stock equity watchlist was created
@@ -505,7 +505,7 @@ def equity_unbookmark_view(request, symbol: str):
 
     # Get the stock equity watchlist
     stock_index_watchlist = StockIndexWatchlist.objects.filter(
-        user=request.user, symbol=nse_symbol
+        user=request.user, symbol=nse_symbol, type="EQUITY"
     )
 
     # If the stock equity watchlist exists
@@ -523,7 +523,7 @@ def equity_unbookmark_view(request, symbol: str):
 
     # Get the stock equity watchlist
     stock_index_watchlist = StockIndexWatchlist.objects.filter(
-        user=request.user, symbol=bse_symbol
+        user=request.user, symbol=bse_symbol, type="EQUITY"
     )
 
     # If the stock equity watchlist exists

@@ -21,6 +21,7 @@ class StockIndexWatchlist(models.Model):
         id: UUIDField for the unique identifier
         user: ForeignKey to User model
         symbol: CharField for the symbol name
+        type: CharField for the type of the symbol
 
     Meta:
         verbose_name: Singular name for the model
@@ -37,6 +38,7 @@ class StockIndexWatchlist(models.Model):
         User, on_delete=models.CASCADE, related_name="stock_index_watchlists"
     )
     symbol = models.CharField(_("Symbol"), max_length=255)
+    type = models.CharField(_("Type"), max_length=255, default="INDEX")
 
     # Meta
     class Meta:
@@ -47,4 +49,4 @@ class StockIndexWatchlist(models.Model):
     # String representation
     def __str__(self) -> str:
         # Return the string representation
-        return f"{self.user} - {self.symbol}"
+        return f"{self.user} - {self.symbol} - {self.type}"
