@@ -338,6 +338,7 @@ def equity_quote_view(request, symbol: str):
 
 
 # Index Quote Bookmark View
+@login_required
 def index_quote_bookmark_view(request, symbol: str):
     """Index Quote Bookmark View
 
@@ -380,6 +381,7 @@ def index_quote_bookmark_view(request, symbol: str):
 
 
 # Index Quote Unbookmark View
+@login_required
 def index_quote_unbookmark_view(request, symbol: str):
     """Index Quote Unbookmark View
 
@@ -414,6 +416,7 @@ def index_quote_unbookmark_view(request, symbol: str):
 
 
 # Equity Bookmark View
+@login_required
 def equity_bookmark_view(request, symbol: str):
     """Equity Bookmark View
 
@@ -436,26 +439,52 @@ def equity_bookmark_view(request, symbol: str):
         # Redirect to explore page
         return redirect(reverse("core:explore"))
 
+    # Get the symbol from the quote
+    symbol = quote["symbol"]
+
+    # Extract the base symbol
+    base_symbol = symbol.split(".")[0]
+
+    # Create symbol for nse and bse
+    nse_symbol = base_symbol + ".NS"
+    bse_symbol = base_symbol + ".BO"
+
     # Get the stock equity watchlist
     _, created = StockIndexWatchlist.objects.get_or_create(
-        user=request.user, symbol=symbol
+        user=request.user, symbol=nse_symbol
     )
 
     # If the stock equity watchlist was created
     if created:
         # Add a success message
-        messages.success(request, f"{symbol} Added to Watchlist!")
+        messages.success(request, f"{nse_symbol} Added to Watchlist!")
 
     # If the stock equity watchlist already exists
     else:
         # Add a warning message
-        messages.warning(request, f"{symbol} Already in Watchlist!")
+        messages.warning(request, f"{nse_symbol} Already in Watchlist!")
+
+    # Get the stock equity watchlist
+    _, created = StockIndexWatchlist.objects.get_or_create(
+        user=request.user, symbol=bse_symbol
+    )
+
+    # If the stock equity watchlist was created
+    if created:
+        # Add a success message
+        messages.success(request, f"{bse_symbol} Added to Watchlist!")
+
+    # If the stock equity watchlist already exists
+    else:
+        # Add a warning message
+        messages.warning(request, f"{bse_symbol} Already in Watchlist!")
 
     # Redirect to the equity quote page
     return redirect(reverse("stock:equityQuote", kwargs={"symbol": symbol}))
 
 
 # Equity Unbookmark View
+@login_required
 def equity_unbookmark_view(request, symbol: str):
     """Equity Unbookmark View
 
@@ -467,9 +496,16 @@ def equity_unbookmark_view(request, symbol: str):
         HttpResponse: The response object
     """
 
+    # Extract the base symbol
+    base_symbol = symbol.split(".")[0]
+
+    # Create symbol for nse and bse
+    nse_symbol = base_symbol + ".NS"
+    bse_symbol = base_symbol + ".BO"
+
     # Get the stock equity watchlist
     stock_index_watchlist = StockIndexWatchlist.objects.filter(
-        user=request.user, symbol=symbol
+        user=request.user, symbol=nse_symbol
     )
 
     # If the stock equity watchlist exists
@@ -478,12 +514,30 @@ def equity_unbookmark_view(request, symbol: str):
         stock_index_watchlist.delete()
 
         # Add a success message
-        messages.success(request, f"{symbol} Removed from Watchlist!")
+        messages.success(request, f"{nse_symbol} Removed from Watchlist!")
 
     # If the stock equity watchlist does not exist
     else:
         # Add a warning message
-        messages.warning(request, f"{symbol} Not in Watchlist!")
+        messages.warning(request, f"{nse_symbol} Not in Watchlist!")
+
+    # Get the stock equity watchlist
+    stock_index_watchlist = StockIndexWatchlist.objects.filter(
+        user=request.user, symbol=bse_symbol
+    )
+
+    # If the stock equity watchlist exists
+    if stock_index_watchlist.exists():
+        # Delete the stock equity watchlist
+        stock_index_watchlist.delete()
+
+        # Add a success message
+        messages.success(request, f"{bse_symbol} Removed from Watchlist!")
+
+    # If the stock equity watchlist does not exist
+    else:
+        # Add a warning message
+        messages.warning(request, f"{bse_symbol} Not in Watchlist!")
 
     # Redirect to the equity quote page
     return redirect(reverse("stock:equityQuote", kwargs={"symbol": symbol}))
