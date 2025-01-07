@@ -9,5 +9,5 @@ app_name = "core"
 # URL patterns
 urlpatterns = [
     path("", core_views.home_view, name="home"),
-    path("dashboard/", core_views.dashboard_view, name="dashboard"),
+    path("explore/", core_views.explore_view, name="explore"),
 ]

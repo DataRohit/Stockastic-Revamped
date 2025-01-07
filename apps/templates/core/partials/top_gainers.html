@@ -2,7 +2,7 @@
 <h1 class="text-xl font-bold text-white w-full text-center mb-4">Top Gainers</h1>
 <div class="flex items-center justify-center gap-4 m-4 xl:max-w-screen">
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-2 text-xxs md:text-xs text-gray-300 xl:max-w-screen-xl w-full"
-         id="dashboard-top-gainers">
+         id="explore-top-gainers">
         {% for symbol, quote in gainers.items %}
             <a href="{% url 'stock:equityQuote' symbol %}"
                class="card bg-neutral text-neutral-content rounded-md h-20 md:h-[4.5rem] cursor-pointer"

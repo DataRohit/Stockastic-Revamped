@@ -113,7 +113,7 @@ AUTHENTICATION_BACKENDS = [
 # Set authentication urls
 # ------------------------------------------------------------------------------
 LOGIN_URL = "account:login"
-LOGIN_REDIRECT_URL = "core:dashboard"
+LOGIN_REDIRECT_URL = "core:explore"
 LOGOUT_REDIRECT_URL = "core:home"
 
 # Passwords

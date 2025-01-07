@@ -43,7 +43,7 @@ def login_view(request):
                 login(request, user)
 
                 # Redirect to the home page
-                return redirect(reverse("core:dashboard"))
+                return redirect(reverse("core:explore"))
 
             # If the user is not authenticated
             else:

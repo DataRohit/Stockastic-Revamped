@@ -64,7 +64,7 @@
                             <div class="hidden flex-none lg:block">
                                 <ul class="menu menu-horizontal">
                                     <li>
-                                        <a href="{% url "core:dashboard" %}">Dashboard</a>
+                                        <a href="{% url "core:explore" %}">Explore</a>
                                     </li>
                                     <li>
                                         <a href="{% url 'stock:indices' %}">Indices</a>
@@ -138,7 +138,7 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li>
-                            <a href="{% url "core:dashboard" %}" class="font-semibold py-3">Dashboard</a>
+                            <a href="{% url "core:explore" %}" class="font-semibold py-3">Explore</a>
                         </li>
                         <li>
                             <a href="{% url 'stock:indices' %}" class="font-semibold py-3">Indices</a>

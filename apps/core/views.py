@@ -28,10 +28,10 @@ def home_view(request):
     return render(request, "core/home.html", context)
 
 
-# Dashboard view
+# Explore view
 @login_required
-def dashboard_view(request):
-    """Dashboard view
+def explore_view(request):
+    """Explore view
 
     Args:
         request (HttpRequest): The request object
@@ -49,5 +49,5 @@ def dashboard_view(request):
         "is_market_open": is_market_open(),
     }
 
-    # Render the dashboard.html template
-    return render(request, "core/dashboard.html", context)
+    # Render the explore.html template
+    return render(request, "core/explore.html", context)

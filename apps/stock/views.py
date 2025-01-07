@@ -293,8 +293,8 @@ def equity_quote_view(request, symbol: str):
         # Add an error message
         messages.error(request, "Equity Stock Not Found!")
 
-        # Redirect to dashboard page
-        return redirect(reverse("core:dashboard"))
+        # Redirect to explore page
+        return redirect(reverse("core:explore"))
 
     # Generate the candle stick chart
     chart = generate_candlestick_chart(symbol)

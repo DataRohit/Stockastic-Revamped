@@ -2,7 +2,7 @@
 <h1 class="text-xl font-bold text-white w-full text-center mb-4">Stock Indices</h1>
 <div class="flex items-center justify-center gap-4 m-4 xl:max-w-screen">
     <div class="flex overflow-scroll no-scrollbar space-x-2 text-xxs md:text-xs text-gray-300 xl:max-w-screen-xl w-full xl:space-x-0 xl:justify-between"
-         id="dashboard-top-indices">
+         id="explore-top-indices">
         {% for symbol, quote in indices.items %}
             <a href="{% url 'stock:indexQuote' symbol %}"
                class="card bg-neutral text-neutral-content rounded-md h-16 md:h-[4.5rem] cursor-pointer"

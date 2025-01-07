@@ -34,7 +34,7 @@ def test_login_view_valid_data(client):
     assert response.status_code == 302
 
     # Check the response URL
-    assert response.url == reverse("core:dashboard")
+    assert response.url == reverse("core:explore")
 
     # Follow the redirect url
     response = client.get(response.url)
