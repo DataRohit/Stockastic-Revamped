@@ -92,9 +92,7 @@ THIRD_PARTY_APPS = [
     "silk",
     "widget_tweaks",
     "django_extensions",
-    "django_filters",
     "channels",
-    "django_celery_beat",
 ]
 LOCAL_APPS = [
     "apps.account",
@@ -287,38 +285,3 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-
-
-# Celery
-# ------------------------------------------------------------------------------
-# Timezone Settings
-if USE_TZ:
-    CELERY_TIMEZONE = TIME_ZONE
-
-# Broker and Backend Configuration
-CELERY_BROKER_URL = REDIS_URL
-CELERY_RESULT_BACKEND = REDIS_URL
-
-# Result Backend Settings
-CELERY_RESULT_EXTENDED = True
-CELERY_RESULT_BACKEND_ALWAYS_RETRY = True
-CELERY_RESULT_BACKEND_MAX_RETRIES = 10
-
-# Serialization Settings
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-
-# Task Time Limits
-CELERY_TASK_TIME_LIMIT = 5 * 60  # 5 minutes
-CELERY_TASK_SOFT_TIME_LIMIT = 60  # 1 minute
-
-# Scheduler Settings
-CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-
-# Task Event Settings
-CELERY_WORKER_SEND_TASK_EVENTS = True
-CELERY_TASK_SEND_SENT_EVENT = True
-
-# Beat Schedule Configuration
-CELERY_BEAT_SCHEDULE = {}

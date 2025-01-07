@@ -13,22 +13,21 @@ help:
 	@echo "       make clean          			- Clean up temporary files"
 
 # 📦 Dependencies
-export-requirements:
-	@echo "🚀 Generating requirements.txt..."
-	@pip freeze > requirements.txt
-	@echo "✅ requirements.txt has been created successfully!"
-
 install-requirements:
 	@echo "🚀 Installing from requirements.txt..."
-	@pip install -r requirements.txt
+	@uv pip install -r requirements.txt
 	@echo "✅ Packages installed successfully!"
+
+export-requirements:
+	@echo "🚀 Generating requirements.txt..."
+	@uv pip freeze > requirements.txt
+	@echo "✅ requirements.txt has been created successfully!"
 
 # 🧹 Cleanup
 clean:
 	@echo "🧹 Cleaning up temporary files..."
-	@find . -name '__pycache__' -exec rm -rf {} +
-	@find . -name '*.pyc' -exec rm -rf {} +
-	@find . -name '*.pyo' -exec rm -rf {} +
-	@find . -name '*.pytest_cache' -exec rm -rf {} +
+	del /s /q __pycache__\*
+	del /s /q *.pyc
+	del /s /q *.pyo
+	rmdir /s /q .pytest_cache
 	@echo "✅ Cleanup complete!"
-

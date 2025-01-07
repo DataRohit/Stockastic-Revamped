@@ -85,37 +85,6 @@ services:
             timeout: 5s
             retries: 5
 
-    stockastic-celery-worker:
-        <<: *stockastic-server
-        container_name: stockastic-celery-worker
-        command: /start-celery-worker
-        ports: []
-        depends_on:
-            - stockastic-server
-        networks:
-            - stockastic-network
-
-    stockastic-celery-beat:
-        <<: *stockastic-server
-        container_name: stockastic-celery-beat
-        command: /start-celery-beat
-        ports: []
-        depends_on:
-            - stockastic-server
-        networks:
-            - stockastic-network
-
-    stockastic-flower:
-        <<: *stockastic-server
-        container_name: stockastic-flower
-        command: /start-flower
-        ports:
-            - "5555:5555"
-        depends_on:
-            - stockastic-server
-        networks:
-            - stockastic-network
-
     stockastic-nginx:
         build:
             context: .
