@@ -28,3 +28,27 @@ class CustomS3Boto3Storage(S3Boto3Storage):
         # Set the endpoint URL and custom domain
         self.endpoint_url = settings.AWS_S3_ENDPOINT_URL
         self.custom_domain = settings.AWS_S3_CUSTOM_DOMAIN
+
+    # Method to return the URL of the file
+    def url(self, name, parameters=None, expire=None):
+        """Get the URL of the file.
+
+        Args:
+            name (str): The name of the file.
+            parameters (dict): The parameters for the URL.
+            expire (int): The expiration time for the URL.
+
+        Returns:
+            str: The URL of the file.
+        """
+
+        # Get the URL
+        url = super().url(name, parameters, expire)
+
+        # If the urls starts with https
+        if url.startswith("https"):
+            # Replace https with http
+            url = "http" + url[5:]
+
+        # Return the URL
+        return url

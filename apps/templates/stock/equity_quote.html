@@ -252,7 +252,7 @@
                     return;
                 }
 
-                const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/`);
+                const ws = new WebSocket(`ws://${window.location.host}/ws/quote/${symbol}/`);
 
                 ws.onmessage = function (event) {
                     try {
@@ -307,7 +307,7 @@
                     return;
                 }
 
-                const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/`);
+                const ws = new WebSocket(`ws://${window.location.host}/ws/quote/${symbol}/`);
 
                 ws.onmessage = function (event) {
                     try {
@@ -429,7 +429,7 @@
             }
 
             const symbol = "{{ symbol }}";
-            const ws = new WebSocket(`wss://${window.location.host}/ws/quote/${symbol}/chart/`);
+            const ws = new WebSocket(`ws://${window.location.host}/ws/quote/${symbol}/chart/`);
 
             ws.onmessage = function (event) {
                 try {

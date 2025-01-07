@@ -62,7 +62,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         {% if is_market_open %}
             if ("WebSocket" in window) {
-                const socketUrl = `wss://${window.location.host}/ws/topIndexQuotes/`;
+                const socketUrl = `ws://${window.location.host}/ws/topIndexQuotes/`;
                 const socket = new WebSocket(socketUrl);
 
                 socket.onerror = function(error) {
