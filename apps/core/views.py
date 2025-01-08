@@ -1,6 +1,7 @@
 # Imports
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from apps.socket.helpers import (
     get_top_equity_gainers_quotes,
@@ -20,6 +21,11 @@ def home_view(request):
     Returns:
         HttpResponse: The response object
     """
+
+    # If user is authenticated
+    if request.user.is_authenticated:
+        # Redirect to explore view
+        return redirect(reverse("core:explore"))
 
     # Create a context dictionary
     context = {"user": request.user}
