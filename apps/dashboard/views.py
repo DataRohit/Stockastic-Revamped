@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from apps.dashboard.models import StockIndexWatchlist
 from apps.socket.helpers import get_quote
+from apps.socket.utils import is_market_open
 
 
 # Dashboard Home View
@@ -37,6 +38,7 @@ def home_view(request):
     # Create a context dictionary
     context = {
         "user": request.user,
+        "is_market_open": is_market_open(),
         "quotes": quotes,
     }
 

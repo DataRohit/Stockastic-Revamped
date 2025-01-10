@@ -2,6 +2,7 @@
 from django.urls import path
 
 from apps.socket.consumers import (
+    BookmarkQuotes,
     IndexQuotesConsumer,
     QuoteChartConsumer,
     QuoteConsumer,
@@ -44,5 +45,10 @@ websocket_urlpatterns = [
         "ws/topEquityLosersQuotes20/",
         TopEquityLosersQuotes20Consumer.as_asgi(),
         name="topEquityLosersQuotes20",
+    ),
+    path(
+        "ws/<str:customer_id>/bookmarkQuotes/",
+        BookmarkQuotes.as_asgi(),
+        name="bookmarkQuotes",
     ),
 ]

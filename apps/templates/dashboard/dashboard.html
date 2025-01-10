@@ -53,7 +53,7 @@
                         </thead>
                         <tbody>
                             {% for symbol, quote in quotes.items %}
-                                <tr>
+                                <tr id="{{ quote.symbol }}">
                                     <th>{{ forloop.counter }}</th>
                                     <td>
                                         {% if quote.quoteType == "INDEX" %}
@@ -125,3 +125,81 @@
         {% endif %}
     </div>
 {% endblock content %}
+{% block script %}
+    <script>
+        let socket;
+
+        function updateAllIndices(data) {
+            const quotes = data || {};
+
+            Object.entries(quotes).forEach(([symbol, quote]) => {
+                const row = document.getElementById(symbol);
+
+                if (row) {
+                    const cells = row.querySelectorAll('td');
+
+                    const priceCell = cells[4];
+                    if (priceCell) {
+                        priceCell.textContent = `₹${parseFloat(quote.lastPrice).toLocaleString('en-IN', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        })}`;
+                    }
+
+                    const chagneCel = cells[5];
+                    if (changeCell) {
+                        const change = parseFloat(quote.dayChange).toLocaleString('en-IN', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+                        changeCell.textContent = `${quote.dayChange >= 0 ? '+' : ''}${change}`;
+                    }
+
+                    const percentCell = cells[6];
+                    if (percentCell) {
+                        const dayChangePercentage = parseFloat(quote.dayChangePercentage);
+                        percentCell.textContent = `${dayChangePercentage >= 0 ? '+' : ''}${dayChangePercentage.toFixed(2)}%`;
+                    }
+
+                    const colorClass = quote.dayChange >= 0 ? 'text-green-500' : 'text-red-500';
+                    [priceCell, changeCell, percentCell].forEach(cell => {
+                        if (cell) {
+                            cell.classList.remove('text-green-500', 'text-red-500');
+                            cell.classList.add(colorClass);
+                        }
+                    });
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            {% if is_market_open %}
+                const socketUrl = `ws://${window.location.host}ws/{{request.user.id}}/bookmarkQuotes/`;
+                socket = new WebSocket(socketUrl);
+
+                socket.onopen = function () {
+                    console.log("WebSocket connection established");
+                };
+
+                socket.onmessage = function (event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        updateAllIndices(data);
+                    } catch (error) {
+                        console.error("Error parsing WebSocket message:", error);
+                    }
+                };
+
+                socket.onclose = function () {
+                    console.log("WebSocket connection closed");
+                };
+
+                socket.onerror = function (error) {
+                    console.error("WebSocket error:", error);
+                };
+            {% else %}
+                console.log("Market is closed. Not connecting to WebSocket.");
+            {% endif %}
+        });
+    </script>
+{% endblock script %}

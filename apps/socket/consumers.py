@@ -3,9 +3,11 @@ import json
 
 import anyio
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.apps import apps
 
 from apps.socket.helpers import (
     generate_candlestick_chart,
+    get_bookmarked_quotes,
     get_index_quotes,
     get_quote,
     get_top_equity_gainers_20_quotes,
@@ -438,3 +440,82 @@ class TopEquityLosersQuotes20Consumer(AsyncWebsocketConsumer):
 
         # Convert list values to single values (assuming single-value params)
         return {key: value[0] for key, value in query_params.items()}
+
+
+# BookmarkQuotes class
+class BookmarkQuotes(AsyncWebsocketConsumer):
+    # Connect method
+    async def connect(self):
+        # Accept the connection
+        await self.accept()
+
+        # Extract the customer_id from the URL
+        self.customer_id = self.scope["url_route"]["kwargs"]["customer_id"]
+
+        # Flag to control the updates
+        self.keep_sending = True
+
+        # Send initial data when connection is established
+        await self.send_quotes()
+
+    # Disconnect method
+    async def disconnect(self, close_code):
+        # Stop sending updates on disconnect
+        self.keep_sending = False
+
+    # Receive method
+    async def send_quotes(self):
+        # Try
+        try:
+            # Send data to the WebSocket client
+            while self.keep_sending:
+                # Get the model only when needed, not at module level
+                StockIndexWatchlist = apps.get_model("dashboard", "StockIndexWatchlist")
+
+                # Fetch the stock index watchlist for the customer
+                watchlist = await self.get_watchlist(
+                    StockIndexWatchlist, self.customer_id
+                )
+
+                # Get list of symbols
+                symbols = [item.symbol for item in watchlist]
+
+                # Get the quotes
+                quotes = get_bookmarked_quotes(symbols)
+
+                # Send the quotes to the WebSocket client
+                await self.send(json.dumps(quotes))
+
+                # Wait for 2.0 second before sending the next update
+                await anyio.sleep(2.0)
+
+        # If any exception occurs
+        except Exception as e:
+            # Print the error
+            print(f"Error in send_quotes: {e}")
+
+            # Stop sending updates
+            self.keep_sending = False
+
+    # Static method to get watchlist
+    @staticmethod
+    async def get_watchlist(StockIndexWatchlist, customer_id):
+        """Get watchlist using database model.
+
+        This method is separated to handle the async database query properly.
+        """
+
+        # Use sync_to_async since Django ORM queries are synchronous
+        from asgiref.sync import sync_to_async
+
+        # Get the watchlist
+        get_watchlist = sync_to_async(
+            lambda: list(
+                StockIndexWatchlist.objects.filter(user__id=customer_id).order_by(
+                    "-type", "symbol"
+                )
+            )
+        )
+
+        # Return the watchlist
+        return await get_watchlist()
