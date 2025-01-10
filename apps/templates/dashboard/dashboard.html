@@ -1,14 +1,16 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% load static %}
+{% load humanize %}
 {% block content %}
     <div class="mx-4 xl:mx-auto mt-8 xl:max-w-screen-xl xl:w-full xl:space-x-0 xl:justify-between">
         {% if messages %}
             {% for msg in messages %}
                 <div role="alert" class="alert alert-{{ msg.tags }} my-4 relative">
                     <svg xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        class="h-6 w-6 shrink-0 stroke-current inline-block">
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         class="h-6 w-6 shrink-0 stroke-current inline-block">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                         </path>
                     </svg>
@@ -17,11 +19,11 @@
                             class="absolute right-0 p-4"
                             onclick="this.parentElement.style.display='none';">
                         <svg xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="h-6 w-6">
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="h-6 w-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                         </svg>
                     </button>
@@ -29,5 +31,97 @@
             {% endfor %}
         {% endif %}
         <h1 class="text-3xl font-bold text-white w-full text-center mb-6">Dashboard</h1>
+        {% if quotes %}
+            <div class="flex flex-col gap-2 mt-8 mb-6">
+                <div class="overflow-x-auto no-scrollbar">
+                    <table class="z-0 table table-zebra table-xs lg:table-md table-pin-rows table-pin-cols min-w-full [&_td]:py-2 [&_th]:py-2 lg:[&_td]:py-4 lg:[&_th]:py-4">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <td>Name</td>
+                                <td>Type</td>
+                                <td>Exchange</td>
+                                <td>Curr Price</td>
+                                <td>Day Change</td>
+                                <td>% Change</td>
+                                <td>Prev Close</td>
+                                <td>Open</td>
+                                <td>High</td>
+                                <td>Low</td>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for symbol, quote in quotes.items %}
+                                <tr>
+                                    <th>{{ forloop.counter }}</th>
+                                    <td>
+                                        {% if quote.quoteType == "INDEX" %}
+                                            <a href="{% url 'stock:indexQuote' symbol %}">
+                                                {% if quote.longName %}
+                                                    {{ quote.longName|upper }}
+                                                {% else %}
+                                                    {{ quote.shortName|upper }}
+                                                {% endif %}
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'stock:equityQuote' symbol %}">
+                                                {% if quote.longName %}
+                                                    {{ quote.longName|upper }}
+                                                {% else %}
+                                                    {{ quote.shortName|upper }}
+                                                {% endif %}
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ quote.quoteType }}</td>
+                                    <td>{{ quote.exchange }}</td>
+                                    <td class="{{ quote.colorClass }}">₹{{ quote.lastPrice|floatformat:2|intcomma }}</td>
+                                    <td class="{{ quote.colorClass }}">
+                                        {% if quote.dayChange >= 0 %}
+                                            +{{ quote.dayChange|floatformat:2|intcomma }}
+                                        {% else %}
+                                            {{ quote.dayChange|floatformat:2|intcomma }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="{{ quote.colorClass }}">
+                                        {% if quote.dayChangePercentage >= 0 %}
+                                            +{{ quote.dayChangePercentage|floatformat:2|intcomma }}%
+                                        {% else %}
+                                            {{ quote.dayChangePercentage|floatformat:2|intcomma }}%
+                                        {% endif %}
+                                    </td>
+                                    <td>₹{{ quote.previousClose|floatformat:2|intcomma }}</td>
+                                    <td>₹{{ quote.open|floatformat:2|intcomma }}</td>
+                                    <td>₹{{ quote.dayHigh|floatformat:2|intcomma }}</td>
+                                    <td>₹{{ quote.dayLow|floatformat:2|intcomma }}</td>
+                                    <th>{{ forloop.counter }}</th>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th></th>
+                                <td>Name</td>
+                                <td>Type</td>
+                                <td>Exchange</td>
+                                <td>Curr Price</td>
+                                <td>Day Change</td>
+                                <td>% Change</td>
+                                <td>Prev Close</td>
+                                <td>Open</td>
+                                <td>High</td>
+                                <td>Low</td>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="flex flex-col items-center justify-center mt-8">
+                <p class="text-lg text-white">No Indices/Stocks Bookmarked!</p>
+            </div>
+        {% endif %}
     </div>
 {% endblock content %}
