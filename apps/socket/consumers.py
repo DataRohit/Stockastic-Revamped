@@ -185,6 +185,9 @@ class QuoteChartConsumer(AsyncWebsocketConsumer):
         # Extract the symbol from the URL
         self.symbol = self.scope["url_route"]["kwargs"]["symbol"]
 
+        # Parse query parameters from the connection scope
+        self.query_params = self.parse_query_string(self.scope["query_string"])
+
         # Flag to control the updates
         self.keep_sending = True
 
@@ -202,8 +205,14 @@ class QuoteChartConsumer(AsyncWebsocketConsumer):
         try:
             # Send data to the WebSocket client
             while self.keep_sending:
+                # Get the period and interval from the query parameters
+                period = self.query_params.get("period", "1d")
+                interval = self.query_params.get("interval", "5m")
+
                 # Get the chart for the index quote
-                chart = generate_candlestick_chart(self.symbol).to_html()
+                chart = generate_candlestick_chart(
+                    self.symbol, period, interval
+                ).to_html()
 
                 # Send the quotes to the WebSocket client
                 await self.send(chart)
@@ -218,6 +227,27 @@ class QuoteChartConsumer(AsyncWebsocketConsumer):
 
             # Stop sending updates
             self.keep_sending = False
+
+    # Static method to parse query string
+    @staticmethod
+    def parse_query_string(query_string: bytes) -> dict:
+        """Parse the query string and return the query parameters as a dictionary.
+
+        Args:
+            query_string (bytes): The query string from the connection scope.
+
+        Returns:
+            dict: The query parameters as a dictionary.
+        """
+
+        # Import the required function
+        from urllib.parse import parse_qs
+
+        # Decode and parse the query string
+        query_params = parse_qs(query_string.decode())
+
+        # Convert list values to single values (assuming single-value params)
+        return {key: value[0] for key, value in query_params.items()}
 
 
 # TopEquityGainersQuotesConsumer class

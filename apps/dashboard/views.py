@@ -1,9 +1,11 @@
 # Imports
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from apps.dashboard.models import StockIndexWatchlist
-from apps.socket.helpers import get_quote
+from apps.socket.helpers import generate_candlestick_chart, get_quote
 from apps.socket.utils import is_market_open
 
 
@@ -48,7 +50,7 @@ def home_view(request):
 
 # Playground View
 @login_required
-def playground_view(request):
+def playground_view(request, symbol: str):
     """Playground View
 
     Args:
@@ -58,9 +60,25 @@ def playground_view(request):
         HttpResponse: The response object
     """
 
+    # Get the quote for the symbol
+    quote = get_quote(symbol)
+
+    # If the quote is None
+    if quote is None:
+        # Add a flash message
+        messages.error(request, f"Invalid symbol: {symbol}")
+
+        # Redirect to the dashboard
+        return redirect(reverse("core:explore"))
+
+    # Generate the candlestick chart
+    chart = generate_candlestick_chart(symbol)
+
     # Create a context dictionary
     context = {
         "user": request.user,
+        "quote": quote[1],
+        "chart": chart.to_html(),
     }
 
     # Render the playground.html template

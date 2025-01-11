@@ -8,6 +8,8 @@ app_name = "dashboard"
 
 # URL patterns
 urlpatterns = [
-    path("", dashboard_views.home_view, name="home"),
-    path("playground/", dashboard_views.playground_view, name="playground"),
+    path("dashboard/", dashboard_views.home_view, name="home"),
+    path(
+        "<str:symbol>/playground/", dashboard_views.playground_view, name="playground"
+    ),
 ]

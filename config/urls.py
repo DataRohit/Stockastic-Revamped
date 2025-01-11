@@ -16,7 +16,7 @@ urlpatterns += [
     path("", include("apps.core.urls")),
     path("account/", include("apps.account.urls")),
     path("stock/", include("apps.stock.urls")),
-    path("dashboard/", include("apps.dashboard.urls")),
+    path("", include("apps.dashboard.urls")),
 ]
 
 # If the app is in debug mode

@@ -5,7 +5,9 @@ import yfinance as yf
 
 
 # Function to fetch the ticker data
-def fetch_ticker_data(ticker: yf.Ticker, data_type: str) -> Dict[str, Any]:
+def fetch_ticker_data(
+    ticker: yf.Ticker, data_type: str, period: str = "1d", interval: str = "5m"
+) -> Dict[str, Any]:
     """Fetch specific ticker data type (info or fast_info)
 
     Args:
@@ -19,7 +21,7 @@ def fetch_ticker_data(ticker: yf.Ticker, data_type: str) -> Dict[str, Any]:
     # If data type is history
     if data_type == "history":
         # Fetch the historical data
-        return ticker.history(period="1d", interval="5m")[
+        return ticker.history(period=period, interval=interval)[
             ["Open", "High", "Low", "Close"]
         ]
 

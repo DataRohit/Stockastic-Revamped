@@ -8,7 +8,9 @@ from apps.socket.utils import fetch_ticker_data
 
 
 # Function to generate candlestick chart
-def generate_candlestick_chart(symbol: str) -> go.Figure:
+def generate_candlestick_chart(
+    symbol: str, period: str = "1d", interval: str = "5m"
+) -> go.Figure:
     """Generate a candlestick plot for the given stock symbol."""
 
     # Initialize the ticker
@@ -17,7 +19,9 @@ def generate_candlestick_chart(symbol: str) -> go.Figure:
     # Use ThreadPoolExecutor to fetch info and history concurrently
     with ThreadPoolExecutor(max_workers=2) as executor:
         future_info = executor.submit(fetch_ticker_data, ticker, "info")
-        future_history = executor.submit(fetch_ticker_data, ticker, "history")
+        future_history = executor.submit(
+            fetch_ticker_data, ticker, "history", period, interval
+        )
 
         # Wait for both futures to complete
         info = future_info.result()

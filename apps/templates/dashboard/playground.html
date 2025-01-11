@@ -30,6 +30,15 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <h1 class="text-3xl font-bold text-white w-full text-center mb-6">Dashboard</h1>
+        <div class="flex items-center justify-center w-full text-center mb-6">
+            <h1 class="text-2xl lg:text-3xl font-black text-white mr-3">
+                {% if quote.longName %}
+                    {{ quote.longName|upper }} ({{ quote.exchange|upper }})
+                {% else %}
+                    {{ quote.shortName|upper }} ({{ quote.exchange|upper }})
+                {% endif %}
+            </h1>
+        </div>
+        <div id="chart-container">{{ chart|safe }}</div>
     </div>
 {% endblock content %}
