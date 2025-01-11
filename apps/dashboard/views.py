@@ -44,3 +44,24 @@ def home_view(request):
 
     # Render the dashboard.html template
     return render(request, "dashboard/dashboard.html", context)
+
+
+# Playground View
+@login_required
+def playground_view(request):
+    """Playground View
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # Create a context dictionary
+    context = {
+        "user": request.user,
+    }
+
+    # Render the playground.html template
+    return render(request, "dashboard/playground.html", context)
