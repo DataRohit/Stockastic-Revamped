@@ -40,5 +40,41 @@
             </h1>
         </div>
         <div id="chart-container">{{ chart|safe }}</div>
+        <div class="flex flex-col gap-2 mb-6">
+            <form method="get" action="{% url 'dashboard:playground' quote.symbol %}">
+                <div class="flex flex-col gap-0 md:flex-row md:gap-2 align-center justify-between">
+                    <div class="mb-2 form-control w-full">
+                        {{ form.period|add_label_class:"label text-white text-xs md:text-sm" }}
+                        {% render_field form.period class="select bg-gray-50 text-gray-900 text-xs md:text-sm" onchange="updateIntervals()" %}
+                    </div>
+                    <div class="mb-2 form-control w-full">
+                        {{ form.interval|add_label_class:"label text-white text-xs md:text-sm" }}
+                        {% render_field form.interval class="select bg-gray-50 text-gray-900 text-xs md:text-sm" %}
+                    </div>
+                </div>
+                <button type="submit" class="w-full btn btn-success text-xs">Update</button>
+            </form>
+        </div>
     </div>
 {% endblock content %}
+{% block script %}
+    <script>
+        function updateIntervals() {
+            const period = document.getElementById('{{ form.period.id_for_label }}').value;
+            const intervalSelect = document.getElementById('{{ form.interval.id_for_label }}');
+
+            fetch(`{% url 'dashboard:getPeriodIntervals' %}?period=${period}`)
+                .then(response => response.json())
+                .then(data => {
+                    intervalSelect.innerHTML = '';
+                    data.intervals.forEach(([value, label]) => {
+                        const option = new Option(label, value);
+                        intervalSelect.add(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        document.getElementById('{{ form.period.id_for_label }}').addEventListener('change', updateIntervals);
+    </script>
+{% endblock script %}

@@ -1,10 +1,13 @@
 # Imports
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from apps.dashboard.forms import ChartFilterForm
 from apps.dashboard.models import StockIndexWatchlist
+from apps.socket.constants import INTERVALS, PERIODS
 from apps.socket.helpers import generate_candlestick_chart, get_quote
 from apps.socket.utils import is_market_open
 
@@ -48,6 +51,24 @@ def home_view(request):
     return render(request, "dashboard/dashboard.html", context)
 
 
+# Get Period Intervals View
+def get_period_intervals_view(request):
+    """Get Period Intervals View
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        JsonResponse: The response object
+    """
+
+    # Get the period from query parameters
+    period = request.GET.get("period", "1d")
+
+    # Return the intervals as a JSON response
+    return JsonResponse({"intervals": INTERVALS[period]})
+
+
 # Playground View
 @login_required
 def playground_view(request, symbol: str):
@@ -59,6 +80,30 @@ def playground_view(request, symbol: str):
     Returns:
         HttpResponse: The response object
     """
+
+    # Initialize the form
+    form = ChartFilterForm(request.GET)
+
+    # Get the period and interval
+    period = form.data.get("period", "1d")
+    interval = form.data.get("interval", "5m")
+
+    # Check if period and interval are valid
+    if period not in dict(PERIODS) or interval not in dict(INTERVALS[period]):
+        # Add a flash message
+        messages.error(request, "Invalid period or interval")
+
+        # Redirect to the dashboard
+        return redirect(reverse("core:explore"))
+
+    # Get the intervals for the period
+    intervals = INTERVALS[period]
+
+    # Set the initial interval
+    form.fields["interval"].initial = interval
+
+    # Set the choices for the interval field
+    form.fields["interval"].choices = intervals
 
     # Get the quote for the symbol
     quote = get_quote(symbol)
@@ -72,11 +117,12 @@ def playground_view(request, symbol: str):
         return redirect(reverse("core:explore"))
 
     # Generate the candlestick chart
-    chart = generate_candlestick_chart(symbol)
+    chart = generate_candlestick_chart(symbol, period, interval)
 
     # Create a context dictionary
     context = {
         "user": request.user,
+        "form": form,
         "quote": quote[1],
         "chart": chart.to_html(),
     }

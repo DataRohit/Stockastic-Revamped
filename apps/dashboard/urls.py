@@ -10,6 +10,11 @@ app_name = "dashboard"
 urlpatterns = [
     path("dashboard/", dashboard_views.home_view, name="home"),
     path(
+        "api/playground/getPeriodIntervals/",
+        dashboard_views.get_period_intervals_view,
+        name="getPeriodIntervals",
+    ),
+    path(
         "<str:symbol>/playground/", dashboard_views.playground_view, name="playground"
     ),
 ]

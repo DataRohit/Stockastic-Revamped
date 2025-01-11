@@ -193,3 +193,50 @@ STOCK_INDICES = {
         "sustainability": ["ESG100.BO"],
     },
 }
+
+# Periods
+PERIODS = [
+    ("1d", "1 Day"),
+    ("5d", "5 Days"),
+    ("1mo", "1 Month"),
+    ("3mo", "3 Months"),
+    ("6mo", "6 Months"),
+    ("1y", "1 Year"),
+    ("2y", "2 Years"),
+    ("5y", "5 Years"),
+    ("10y", "10 Years"),
+    ("max", "Max"),
+]
+INTERVALS = {
+    "1d": [
+        ("1m", "1 Minute"),
+        ("2m", "2 Minutes"),
+        ("5m", "5 Minutes"),
+        ("15m", "15 Minutes"),
+        ("30m", "30 Minutes"),
+        ("60m", "60 Minutes"),
+        ("90m", "90 Minutes"),
+    ],
+    "5d": [
+        ("1m", "1 Minute"),
+        ("2m", "2 Minutes"),
+        ("5m", "5 Minutes"),
+        ("15m", "15 Minutes"),
+        ("30m", "30 Minutes"),
+        ("60m", "60 Minutes"),
+        ("90m", "90 Minutes"),
+    ],
+    "1mo": [
+        ("30m", "30 Minutes"),
+        ("60m", "60 Minutes"),
+        ("90m", "90 Minutes"),
+        ("1d", "1 Day"),
+    ],
+    "3mo": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
+    "6mo": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
+    "1y": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
+    "2y": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
+    "5y": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
+    "10y": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
+    "max": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
+}
