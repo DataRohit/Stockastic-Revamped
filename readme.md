@@ -15,6 +15,7 @@ A comprehensive stock monitoring platform providing real-time investment insight
   - Advanced playground mode for technical analysis
 - **Dual Exchange Support**: Toggle between BSE and NSE for equity stocks
 - **Multiple Index Categories**: Various index options sourced from NSE Python and BSE website
+- **Modern UI/UX**: Responsive and intuitive interface styled with Tailwind CSS and DaisyUI components
 
 ## 🎮 Technical Analysis Playground
 
@@ -49,6 +50,13 @@ A comprehensive stock monitoring platform providing real-time investment insight
 - Plotly 5.24.1
 - Redis 5.2.1
 
+### Frontend
+
+- Tailwind CSS 3.4.1
+- DaisyUI 4.7.2
+- HTML5/CSS3
+- JavaScript
+
 ### Infrastructure
 
 - PostgreSQL (Database)
@@ -67,7 +75,7 @@ A comprehensive list of Python dependencies is maintained in `requirements.txt`.
 - Django and related packages (django-cors-headers, django-redis, etc.)
 - Data processing tools (pandas, numpy)
 - Visualization libraries (plotly)
-- Technical analysis libraries (ta-lib)
+- Technical analysis libraries (ta)
 - WebSocket support
 - Database connectors
 - Development and testing utilities
@@ -90,4 +98,6 @@ This project is licensed under the MIT License - see the `license` file for deta
 - yfinance maintainers
 - Django community
 - TA-Lib contributors
+- Tailwind CSS team
+- DaisyUI contributors
 - All contributors who have helped shape this project
