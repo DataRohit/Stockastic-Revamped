@@ -280,4 +280,5 @@ INDICATORS = [
     ("bbands", "Bollinger Bands 20-2"),
     ("midpoint", "Midpoint 14"),
     ("midprice", "Midprice 14"),
+    ("sar", "Parabolic SAR 0.02-0.2"),
 ]

@@ -24,6 +24,7 @@ from apps.socket.helpers.chart_indicator_helpers.ppo import add_ppo_indicator
 from apps.socket.helpers.chart_indicator_helpers.roc import add_roc_indicator
 from apps.socket.helpers.chart_indicator_helpers.rocr import add_rocr_indicator
 from apps.socket.helpers.chart_indicator_helpers.rsi import add_rsi_indicator
+from apps.socket.helpers.chart_indicator_helpers.sar import add_sar_indicator
 from apps.socket.helpers.chart_indicator_helpers.sma import add_sma_indicator
 from apps.socket.helpers.chart_indicator_helpers.stoch import add_stochastic_indicator
 from apps.socket.helpers.chart_indicator_helpers.stochf import (
