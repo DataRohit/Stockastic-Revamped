@@ -12,6 +12,7 @@ from apps.socket.helpers.chart_indicator_helpers.ema import add_ema_indicator
 from apps.socket.helpers.chart_indicator_helpers.kama import add_kama_indicator
 from apps.socket.helpers.chart_indicator_helpers.macd import add_macd_indicator
 from apps.socket.helpers.chart_indicator_helpers.mama import add_mama_indicator
+from apps.socket.helpers.chart_indicator_helpers.minus_di import add_minus_di_indicator
 from apps.socket.helpers.chart_indicator_helpers.mom import add_mom_indicator
 from apps.socket.helpers.chart_indicator_helpers.ppo import add_ppo_indicator
 from apps.socket.helpers.chart_indicator_helpers.roc import add_roc_indicator
