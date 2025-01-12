@@ -103,6 +103,7 @@ def generate_candlestick_chart(
         "cmo": add_cmo_indicator,
         "roc": add_roc_indicator,
         "rocr": add_rocr_indicator,
+        "aroon": add_aroon_indicator,
     }
 
     # If the indicator is in the mapping

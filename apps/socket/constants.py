@@ -268,4 +268,5 @@ INDICATORS = [
     ("cmo", "Chande Momentum Oscillator 14"),
     ("roc", "Rate of Change 14"),
     ("rocr", "Rate of Change Ratio 14"),
+    ("aroon", "Aroon 14"),
 ]
