@@ -110,6 +110,8 @@ def generate_candlestick_chart(
         "dx": add_dx_indicator,
         "minus_di": add_minus_di_indicator,
         "plus_di": add_plus_di_indicator,
+        "minus_dm": add_minus_dm_indicator,
+        "plus_dm": add_plus_dm_indicator,
     }
 
     # If the indicator is in the mapping

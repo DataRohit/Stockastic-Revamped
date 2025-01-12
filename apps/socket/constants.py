@@ -275,4 +275,6 @@ INDICATORS = [
     ("dx", "DX 14"),
     ("minus_di", "Minus DI 14"),
     ("plus_di", "Plus DI 14"),
+    ("minus_dm", "Minus DM 14"),
+    ("plus_dm", "Plus DM 14"),
 ]
