@@ -270,4 +270,5 @@ INDICATORS = [
     ("rocr", "Rate of Change Ratio 14"),
     ("aroon", "Aroon 14"),
     ("aroonosc", "Aroon Oscillator 14"),
+    ("trix", "TRIX 14-9"),
 ]

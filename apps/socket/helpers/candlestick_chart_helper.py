@@ -105,6 +105,7 @@ def generate_candlestick_chart(
         "rocr": add_rocr_indicator,
         "aroon": add_aroon_indicator,
         "aroonosc": add_aroonosc_indicator,
+        "trix": add_trix_indicator,
     }
 
     # If the indicator is in the mapping
