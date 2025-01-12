@@ -109,6 +109,7 @@ def generate_candlestick_chart(
         "ultosc": add_ultosc_indicator,
         "dx": add_dx_indicator,
         "minus_di": add_minus_di_indicator,
+        "plus_di": add_plus_di_indicator,
     }
 
     # If the indicator is in the mapping

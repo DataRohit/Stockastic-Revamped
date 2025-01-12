@@ -274,4 +274,5 @@ INDICATORS = [
     ("ultosc", "Ultimate Oscillator 7-14-28"),
     ("dx", "DX 14"),
     ("minus_di", "Minus DI 14"),
+    ("plus_di", "Plus DI 14"),
 ]
