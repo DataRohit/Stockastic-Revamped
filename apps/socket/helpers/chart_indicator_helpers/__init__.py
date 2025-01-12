@@ -28,5 +28,6 @@ from apps.socket.helpers.chart_indicator_helpers.t3 import add_t3_indicator
 from apps.socket.helpers.chart_indicator_helpers.tema import add_tema_indicator
 from apps.socket.helpers.chart_indicator_helpers.trima import add_trima_indicator
 from apps.socket.helpers.chart_indicator_helpers.trix import add_trix_indicator
+from apps.socket.helpers.chart_indicator_helpers.ultosc import add_ultosc_indicator
 from apps.socket.helpers.chart_indicator_helpers.willr import add_williams_r_indicator
 from apps.socket.helpers.chart_indicator_helpers.wma import add_wma_indicator
