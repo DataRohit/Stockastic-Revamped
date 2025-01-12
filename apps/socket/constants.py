@@ -253,4 +253,5 @@ INDICATORS = [
     ("kama", "KAMA 20"),
     ("mama", "MAMA 20"),
     ("t3", "T3 20"),
+    ("macd", "MACD 12-26-9"),
 ]

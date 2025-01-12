@@ -8,6 +8,7 @@ from apps.socket.helpers.chart_indicator_helpers import (
     add_dema_indicator,
     add_ema_indicator,
     add_kama_indicator,
+    add_macd_indicator,
     add_mama_indicator,
     add_sma_indicator,
     add_t3_indicator,
@@ -133,6 +134,11 @@ def generate_candlestick_chart(
         case "t3":
             # Add the T3 indicator
             fig = add_t3_indicator(fig, history_df, 20)
+
+        # If indicator is "macd"
+        case "macd":
+            # Add the MACD indicator
+            fig = add_macd_indicator(fig, history_df)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
