@@ -121,6 +121,7 @@ def generate_candlestick_chart(
         "natr": add_natr_indicator,
         "ad": add_chaikin_ad_indicator,
         "adosc": add_adosc_indicator,
+        "obv": add_price_based_obv_indicator,
     }
 
     # If the indicator is in the mapping

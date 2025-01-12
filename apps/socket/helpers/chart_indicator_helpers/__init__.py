@@ -22,6 +22,9 @@ from apps.socket.helpers.chart_indicator_helpers.minus_di import add_minus_di_in
 from apps.socket.helpers.chart_indicator_helpers.minus_dm import add_minus_dm_indicator
 from apps.socket.helpers.chart_indicator_helpers.mom import add_mom_indicator
 from apps.socket.helpers.chart_indicator_helpers.natr import add_natr_indicator
+from apps.socket.helpers.chart_indicator_helpers.obv import (
+    add_price_based_obv_indicator,
+)
 from apps.socket.helpers.chart_indicator_helpers.plus_di import add_plus_di_indicator
 from apps.socket.helpers.chart_indicator_helpers.plus_dm import add_plus_dm_indicator
 from apps.socket.helpers.chart_indicator_helpers.ppo import add_ppo_indicator

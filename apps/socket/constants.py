@@ -286,4 +286,5 @@ INDICATORS = [
     ("natr", "Normalized Average True Range 14"),
     ("ad", "Accumulation/Distribution"),
     ("adosc", "Accumulation/Distribution Oscillator"),
+    ("obv", "On Balance Volume"),
 ]
