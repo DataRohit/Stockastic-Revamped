@@ -87,6 +87,7 @@ def playground_view(request, symbol: str):
     # Get the period and interval
     period = form.data.get("period", "1d")
     interval = form.data.get("interval", "5m")
+    indicator = form.data.get("indicator", "none")
 
     # Check if period and interval are valid
     if period not in dict(PERIODS) or interval not in dict(INTERVALS[period]):
@@ -105,6 +106,9 @@ def playground_view(request, symbol: str):
     # Set the choices for the interval field
     form.fields["interval"].choices = intervals
 
+    # Set the initial indicator
+    form.fields["indicator"].initial = indicator
+
     # Get the quote for the symbol
     quote = get_quote(symbol)
 
@@ -117,7 +121,7 @@ def playground_view(request, symbol: str):
         return redirect(reverse("core:explore"))
 
     # Generate the candlestick chart
-    chart = generate_candlestick_chart(symbol, period, interval, None)
+    chart = generate_candlestick_chart(symbol, period, interval, indicator, 800)
 
     # Create a context dictionary
     context = {

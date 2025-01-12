@@ -240,3 +240,8 @@ INTERVALS = {
     "10y": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
     "max": [("1d", "1 Day"), ("5d", "5 Days"), ("1wk", "1 Week"), ("1mo", "1 Month")],
 }
+
+# Indicators
+INDICATORS = [
+    ("none", "None"),
+]

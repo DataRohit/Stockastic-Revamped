@@ -1,7 +1,7 @@
 # Imports
 from django import forms
 
-from apps.socket.constants import INTERVALS, PERIODS
+from apps.socket.constants import INDICATORS, INTERVALS, PERIODS
 
 
 # Chart filter form
@@ -27,6 +27,13 @@ class ChartFilterForm(forms.Form):
     interval = forms.ChoiceField(
         label="Interval",
         choices=INTERVALS["1d"],
+        required=True,
+        widget=forms.Select(),
+    )
+    indicator = forms.ChoiceField(
+        label="Indicator",
+        choices=INDICATORS,
+        initial="none",
         required=True,
         widget=forms.Select(),
     )

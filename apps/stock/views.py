@@ -180,7 +180,7 @@ def index_quote_view(request, symbol: str):
     quote = get_quote(symbol)[-1]
 
     # Generate the candle stick chart
-    chart = generate_candlestick_chart(symbol, "1d", "5m", None)
+    chart = generate_candlestick_chart(symbol, "1d", "5m", "none")
 
     # Check if the quote is bookmarked
     is_bookmarked = StockIndexWatchlist.objects.filter(
@@ -304,7 +304,7 @@ def equity_quote_view(request, symbol: str):
         return redirect(reverse("core:explore"))
 
     # Generate the candle stick chart
-    chart = generate_candlestick_chart(symbol, "1d", "5m", None)
+    chart = generate_candlestick_chart(symbol, "1d", "5m", "none")
 
     # Get the symbol from the quote
     symbol = quote["symbol"]

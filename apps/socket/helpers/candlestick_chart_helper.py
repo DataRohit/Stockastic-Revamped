@@ -9,7 +9,11 @@ from apps.socket.utils import fetch_ticker_data
 
 # Function to generate candlestick chart
 def generate_candlestick_chart(
-    symbol: str, period: str = "1d", interval: str = "5m", indicator: str = None
+    symbol: str,
+    period: str = "1d",
+    interval: str = "5m",
+    indicator: str = "none",
+    height: int = 650,
 ) -> go.Figure:
     """Generate a candlestick plot for the given stock symbol."""
 
@@ -88,6 +92,7 @@ def generate_candlestick_chart(
             zerolinecolor="#333333",
             title_font=dict(family="JetBrains Mono"),
             tickfont=dict(family="JetBrains Mono"),
+            rangeslider_visible=False,
         ),
         yaxis=dict(
             gridcolor="#333333",
@@ -96,7 +101,7 @@ def generate_candlestick_chart(
             tickfont=dict(family="JetBrains Mono"),
         ),
         hoverlabel=dict(font=dict(family="JetBrains Mono"), namelength=-1),
-        height=650,
+        height=height,
     )
 
     # Update the hover labels to be capitalized

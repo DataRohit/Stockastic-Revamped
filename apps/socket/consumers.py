@@ -211,7 +211,7 @@ class QuoteChartConsumer(AsyncWebsocketConsumer):
 
                 # Get the chart for the index quote
                 chart = generate_candlestick_chart(
-                    self.symbol, period, interval, None
+                    self.symbol, period, interval, "none"
                 ).to_html()
 
                 # Send the quotes to the WebSocket client
