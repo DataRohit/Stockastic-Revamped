@@ -278,4 +278,6 @@ INDICATORS = [
     ("minus_dm", "Minus DM 14"),
     ("plus_dm", "Plus DM 14"),
     ("bbands", "Bollinger Bands 20-2"),
+    ("midpoint", "Midpoint 14"),
+    ("midprice", "Midprice 14"),
 ]

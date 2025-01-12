@@ -113,6 +113,8 @@ def generate_candlestick_chart(
         "minus_dm": add_minus_dm_indicator,
         "plus_dm": add_plus_dm_indicator,
         "bbands": add_bbands_indicator,
+        "midpoint": add_midpoint_indicator,
+        "midprice": add_midprice_indicator,
     }
 
     # If the indicator is in the mapping

@@ -13,6 +13,8 @@ from apps.socket.helpers.chart_indicator_helpers.ema import add_ema_indicator
 from apps.socket.helpers.chart_indicator_helpers.kama import add_kama_indicator
 from apps.socket.helpers.chart_indicator_helpers.macd import add_macd_indicator
 from apps.socket.helpers.chart_indicator_helpers.mama import add_mama_indicator
+from apps.socket.helpers.chart_indicator_helpers.midpoint import add_midpoint_indicator
+from apps.socket.helpers.chart_indicator_helpers.midprice import add_midprice_indicator
 from apps.socket.helpers.chart_indicator_helpers.minus_di import add_minus_di_indicator
 from apps.socket.helpers.chart_indicator_helpers.minus_dm import add_minus_dm_indicator
 from apps.socket.helpers.chart_indicator_helpers.mom import add_mom_indicator
