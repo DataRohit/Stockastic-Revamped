@@ -245,4 +245,5 @@ INTERVALS = {
 INDICATORS = [
     ("none", "None"),
     ("sma", "SMA"),
+    ("ema", "EMA"),
 ]
