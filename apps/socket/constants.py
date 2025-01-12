@@ -287,4 +287,5 @@ INDICATORS = [
     ("ad", "Accumulation/Distribution"),
     ("adosc", "Accumulation/Distribution Oscillator"),
     ("obv", "On Balance Volume"),
+    ("ht_trendline", "Hilbert Transform - Instantaneous Trendline"),
 ]

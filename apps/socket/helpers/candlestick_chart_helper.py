@@ -122,6 +122,7 @@ def generate_candlestick_chart(
         "ad": add_chaikin_ad_indicator,
         "adosc": add_adosc_indicator,
         "obv": add_price_based_obv_indicator,
+        "ht_trendline": add_ht_trendline,
     }
 
     # If the indicator is in the mapping
