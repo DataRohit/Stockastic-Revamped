@@ -74,7 +74,6 @@ def add_macd_indicator(
             title="MACD",
             overlaying="y",
             side="right",
-            range=[history_df["MACD"].min(), history_df["MACD"].max()],
         ),
     )
 

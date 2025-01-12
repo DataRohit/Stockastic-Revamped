@@ -49,7 +49,6 @@ def add_williams_r_indicator(
             title="Williams %R",
             overlaying="y",
             side="right",
-            range=[-100, 0],
         ),
     )
 

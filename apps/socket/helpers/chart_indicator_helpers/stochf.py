@@ -50,7 +50,6 @@ def add_stochastic_fast_indicator(
             title="Stochastic Fast (%K)",
             overlaying="y",
             side="right",
-            range=[0, 100],
         ),
     )
 

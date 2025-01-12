@@ -65,7 +65,6 @@ def add_stochastic_indicator(
             title="Stochastic Oscillator",
             overlaying="y",
             side="right",
-            range=[0, 100],
         ),
     )
 

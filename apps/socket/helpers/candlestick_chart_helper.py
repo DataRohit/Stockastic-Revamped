@@ -154,10 +154,10 @@ def generate_candlestick_chart(
             # Add the Williams %R indicator
             fig = add_williams_r_indicator(fig, history_df)
 
-        # If indicator is "adx"
-        case "adx":
-            # Add the ADX indicator
-            fig = add_adx_indicator(fig, history_df)
+        # If indicator is "adxr"
+        case "adxr":
+            # Add the ADXR indicator
+            fig = add_adxr_indicator(fig, history_df)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(

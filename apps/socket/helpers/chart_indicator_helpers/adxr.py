@@ -4,19 +4,19 @@ import pandas as pd
 import plotly.graph_objects as go
 
 
-# Function to calculate the Average Directional Index (ADX) Indicator
-def add_adx_indicator(
+# Function to calculate the ADXR Indicator
+def add_adxr_indicator(
     fig: go.Figure, history_df: pd.DataFrame, window: int = 14
 ) -> go.Figure:
-    """Add the Average Directional Index (ADX) indicator to the given plot.
+    """Add the Average Directional Movement Rating (ADXR) indicator to the given plot.
 
     Args:
         fig (go.Figure): The plot to which the indicator will be added.
         history_df (pd.DataFrame): The historical stock data.
-        window (int, optional): The window size for calculating the ADX. Defaults to 14.
+        window (int, optional): The window size for calculating the ADX and ADXR. Defaults to 14.
 
     Returns:
-        go.Figure: The plot with the ADX indicator added.
+        go.Figure: The plot with the ADXR indicator added.
     """
 
     # Calculate True Range (TR)
@@ -39,12 +39,12 @@ def add_adx_indicator(
         0,
     )
 
-    # Smooth TR, +DM, and -DM using an exponential moving average (EMA)
+    # Smooth TR, +DM, and -DM
     history_df["TR_smoothed"] = history_df["TR"].rolling(window).mean()
     history_df["+DM_smoothed"] = history_df["+DM"].rolling(window).mean()
     history_df["-DM_smoothed"] = history_df["-DM"].rolling(window).mean()
 
-    # Calculate +DI, -DI
+    # Calculate +DI and -DI
     history_df["+DI"] = 100 * (history_df["+DM_smoothed"] / history_df["TR_smoothed"])
     history_df["-DI"] = 100 * (history_df["-DM_smoothed"] / history_df["TR_smoothed"])
 
@@ -56,31 +56,10 @@ def add_adx_indicator(
     )
     history_df["ADX"] = history_df["DX"].rolling(window).mean()
 
-    # Add +DI trace to the plot
-    fig.add_trace(
-        go.Scatter(
-            x=history_df.index,
-            y=history_df["+DI"],
-            mode="lines",
-            line=dict(color="#00FF00", width=2),
-            name=f"+DI {window}",
-            yaxis="y2",
-        )
-    )
+    # Calculate ADXR (average of current and past ADX values)
+    history_df["ADXR"] = (history_df["ADX"] + history_df["ADX"].shift(window)) / 2
 
-    # Add -DI trace to the plot
-    fig.add_trace(
-        go.Scatter(
-            x=history_df.index,
-            y=history_df["-DI"],
-            mode="lines",
-            line=dict(color="#FF0000", width=2),
-            name=f"-DI {window}",
-            yaxis="y2",
-        )
-    )
-
-    # Add ADX trace to the plot
+    # Add ADX trace to the plot for reference
     fig.add_trace(
         go.Scatter(
             x=history_df.index,
@@ -92,6 +71,18 @@ def add_adx_indicator(
         )
     )
 
+    # Add ADXR trace to the plot
+    fig.add_trace(
+        go.Scatter(
+            x=history_df.index,
+            y=history_df["ADXR"],
+            mode="lines",
+            line=dict(color="#FFA500", width=2),
+            name=f"ADXR {window}",
+            yaxis="y2",
+        )
+    )
+
     # Update layout for visibility
     fig.update_layout(
         yaxis2=dict(
@@ -99,10 +90,9 @@ def add_adx_indicator(
             zerolinecolor="#888888",
             title_font=dict(family="JetBrains Mono"),
             tickfont=dict(family="JetBrains Mono"),
-            title="+DI / -DI / ADX",
+            title="ADX / ADXR",
             overlaying="y",
             side="right",
-            range=[0, 100],
         ),
     )
 
