@@ -254,4 +254,5 @@ INDICATORS = [
     ("mama", "MAMA 20"),
     ("t3", "T3 20"),
     ("macd", "MACD 12-26-9"),
+    ("stoch", "Stochastic 14-3"),
 ]

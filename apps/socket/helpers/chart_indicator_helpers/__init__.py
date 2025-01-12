@@ -5,6 +5,7 @@ from apps.socket.helpers.chart_indicator_helpers.kama import add_kama_indicator
 from apps.socket.helpers.chart_indicator_helpers.macd import add_macd_indicator
 from apps.socket.helpers.chart_indicator_helpers.mama import add_mama_indicator
 from apps.socket.helpers.chart_indicator_helpers.sma import add_sma_indicator
+from apps.socket.helpers.chart_indicator_helpers.stoch import add_stochastic_indicator
 from apps.socket.helpers.chart_indicator_helpers.t3 import add_t3_indicator
 from apps.socket.helpers.chart_indicator_helpers.tema import add_tema_indicator
 from apps.socket.helpers.chart_indicator_helpers.trima import add_trima_indicator
