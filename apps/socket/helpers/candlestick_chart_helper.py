@@ -77,122 +77,37 @@ def generate_candlestick_chart(
             xanchor="left",
         )
 
-    # Match the indicator
-    match indicator:
-        # If indicator is "sma"
-        case "sma":
-            # Add the SMA indicator
-            fig = add_sma_indicator(fig, history_df, 20)
+    # Define a mapping of indicators to functions
+    indicator_functions = {
+        "sma": add_sma_indicator,
+        "ema": add_ema_indicator,
+        "wma": add_wma_indicator,
+        "dema": add_dema_indicator,
+        "tema": add_tema_indicator,
+        "trima": add_trima_indicator,
+        "kama": add_kama_indicator,
+        "mama": add_mama_indicator,
+        "t3": add_t3_indicator,
+        "macd": add_macd_indicator,
+        "stoch": add_stochastic_indicator,
+        "stochf": add_stochastic_fast_indicator,
+        "rsi": add_rsi_indicator,
+        "stochrsi": add_stochastic_rsi_indicator,
+        "willr": add_williams_r_indicator,
+        "adxr": add_adxr_indicator,
+        "apo": add_apo_indicator,
+        "ppo": add_ppo_indicator,
+        "mom": add_mom_indicator,
+        "bop": add_bop_indicator,
+        "cci": add_cci_indicator,
+        "cmo": add_cmo_indicator,
+        "roc": add_roc_indicator,
+    }
 
-        # If indicator is "ema"
-        case "ema":
-            # Add the EMA indicator
-            fig = add_ema_indicator(fig, history_df, 20)
-
-        # If indicator is "wma"
-        case "wma":
-            # Add the WMA indicator
-            fig = add_wma_indicator(fig, history_df, 20)
-
-        # If indicator is "dema"
-        case "dema":
-            # Add the DEMA indicator
-            fig = add_dema_indicator(fig, history_df, 20)
-
-        # If indicator is "tema"
-        case "tema":
-            # Add the TEMA indicator
-            fig = add_tema_indicator(fig, history_df, 20)
-
-        # If indicator is "trima"
-        case "trima":
-            # Add the TRIMA indicator
-            fig = add_trima_indicator(fig, history_df, 20)
-
-        # If indicator is "kama"
-        case "kama":
-            # Add the KAMA indicator
-            fig = add_kama_indicator(fig, history_df, 20)
-
-        # If indicator is "mama"
-        case "mama":
-            # Add the MAMA indicator
-            fig = add_mama_indicator(fig, history_df, 20)
-
-        # If indicator is "t3"
-        case "t3":
-            # Add the T3 indicator
-            fig = add_t3_indicator(fig, history_df, 20)
-
-        # If indicator is "macd"
-        case "macd":
-            # Add the MACD indicator
-            fig = add_macd_indicator(fig, history_df)
-
-        # If indicator is "stoch"
-        case "stoch":
-            # Add the Stochastic indicator
-            fig = add_stochastic_indicator(fig, history_df)
-
-        # If indicator is "stochf"
-        case "stochf":
-            # Add the Stochastic Fast indicator
-            fig = add_stochastic_fast_indicator(fig, history_df)
-
-        # If indicator is "rsi"
-        case "rsi":
-            # Add the RSI indicator
-            fig = add_rsi_indicator(fig, history_df, 14)
-
-        # If indicator is "stochrsi"
-        case "stochrsi":
-            # Add the Stochastic RSI indicator
-            fig = add_stochastic_rsi_indicator(fig, history_df)
-
-        # If indicator is "willr"
-        case "willr":
-            # Add the Williams %R indicator
-            fig = add_williams_r_indicator(fig, history_df)
-
-        # If indicator is "adxr"
-        case "adxr":
-            # Add the ADXR indicator
-            fig = add_adxr_indicator(fig, history_df)
-
-        # If indicator is "apo"
-        case "apo":
-            # Add the APO indicator
-            fig = add_apo_indicator(fig, history_df, 12, 26)
-
-        # If indicator is "ppo"
-        case "ppo":
-            # Add the PPO indicator
-            fig = add_ppo_indicator(fig, history_df, 12, 26)
-
-        # If indicator is "mom"
-        case "mom":
-            # Add the MOM indicator
-            fig = add_mom_indicator(fig, history_df, 10)
-
-        # If indicator is "bop"
-        case "bop":
-            # Add the Balance of Power indicator
-            fig = add_bop_indicator(fig, history_df)
-
-        # If indicator is "cci"
-        case "cci":
-            # Add the CCI indicator
-            fig = add_cci_indicator(fig, history_df, 20)
-
-        # If indicator is "cmo"
-        case "cmo":
-            # Add the Chande Momentum Oscillator indicator
-            fig = add_cmo_indicator(fig, history_df, 20)
-
-        # If indicator is "roc"
-        case "roc":
-            # Add the Rate of Change indicator
-            fig = add_roc_indicator(fig, history_df, 10)
+    # If the indicator is in the mapping
+    if indicator in indicator_functions:
+        # Call the function to add the indicator to the figure
+        fig = indicator_functions[indicator](fig, history_df)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
