@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import yfinance as yf
 
 from apps.socket.helpers.chart_indicator_helpers import (
+    add_dema_indicator,
     add_ema_indicator,
     add_sma_indicator,
     add_wma_indicator,
@@ -97,6 +98,11 @@ def generate_candlestick_chart(
         case "wma":
             # Add the WMA indicator
             fig = add_wma_indicator(fig, history_df, 20)
+
+        # If indicator is "dema"
+        case "dema":
+            # Add the DEMA indicator
+            fig = add_dema_indicator(fig, history_df, 20)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(

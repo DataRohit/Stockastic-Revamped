@@ -247,4 +247,5 @@ INDICATORS = [
     ("sma", "SMA"),
     ("ema", "EMA"),
     ("wma", "WMA"),
+    ("dema", "DEMA"),
 ]
