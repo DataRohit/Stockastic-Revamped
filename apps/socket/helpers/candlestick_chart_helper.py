@@ -9,7 +9,7 @@ from apps.socket.utils import fetch_ticker_data
 
 # Function to generate candlestick chart
 def generate_candlestick_chart(
-    symbol: str, period: str = "1d", interval: str = "5m"
+    symbol: str, period: str = "1d", interval: str = "5m", indicator: str = None
 ) -> go.Figure:
     """Generate a candlestick plot for the given stock symbol."""
 

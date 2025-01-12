@@ -117,7 +117,7 @@ def playground_view(request, symbol: str):
         return redirect(reverse("core:explore"))
 
     # Generate the candlestick chart
-    chart = generate_candlestick_chart(symbol, period, interval)
+    chart = generate_candlestick_chart(symbol, period, interval, None)
 
     # Create a context dictionary
     context = {
