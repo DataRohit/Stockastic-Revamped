@@ -4,20 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 import plotly.graph_objects as go
 import yfinance as yf
 
-from apps.socket.helpers.chart_indicator_helpers import (
-    add_dema_indicator,
-    add_ema_indicator,
-    add_kama_indicator,
-    add_macd_indicator,
-    add_mama_indicator,
-    add_sma_indicator,
-    add_stochastic_fast_indicator,
-    add_stochastic_indicator,
-    add_t3_indicator,
-    add_tema_indicator,
-    add_trima_indicator,
-    add_wma_indicator,
-)
+from apps.socket.helpers.chart_indicator_helpers import *
 from apps.socket.utils import fetch_ticker_data
 
 
@@ -151,6 +138,11 @@ def generate_candlestick_chart(
         case "stochf":
             # Add the Stochastic Fast indicator
             fig = add_stochastic_fast_indicator(fig, history_df)
+
+        # if indicator is "rsi"
+        case "rsi":
+            # Add the RSI indicator
+            fig = add_rsi_indicator(fig, history_df, 14)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
