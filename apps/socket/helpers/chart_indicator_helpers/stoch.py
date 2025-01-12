@@ -39,6 +39,7 @@ def add_stochastic_indicator(
             mode="lines",
             line=dict(color="#1f77b4", width=2),
             name=f"%K {window}",
+            yaxis="y2",
         )
     )
 
@@ -50,7 +51,22 @@ def add_stochastic_indicator(
             mode="lines",
             line=dict(color="#FF6347", width=2),
             name=f"%D {smooth_window}",
+            yaxis="y2",
         )
+    )
+
+    # Update layout to add secondary Y-axis
+    fig.update_layout(
+        yaxis2=dict(
+            gridcolor="#888888",
+            zerolinecolor="#888888",
+            title_font=dict(family="JetBrains Mono"),
+            tickfont=dict(family="JetBrains Mono"),
+            title="Stochastic Oscillator",
+            overlaying="y",
+            side="right",
+            range=[0, 100],
+        ),
     )
 
     # Return the figure

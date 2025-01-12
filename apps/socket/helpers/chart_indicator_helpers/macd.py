@@ -48,6 +48,7 @@ def add_macd_indicator(
             mode="lines",
             line=dict(color="blue", width=2),
             name="MACD",
+            yaxis="y2",
         )
     )
 
@@ -59,7 +60,22 @@ def add_macd_indicator(
             mode="lines",
             line=dict(color="orange", width=2),
             name="Signal",
+            yaxis="y2",
         )
+    )
+
+    # Update layout to add secondary Y-axis
+    fig.update_layout(
+        yaxis2=dict(
+            gridcolor="#888888",
+            zerolinecolor="#888888",
+            title_font=dict(family="JetBrains Mono"),
+            tickfont=dict(family="JetBrains Mono"),
+            title="MACD",
+            overlaying="y",
+            side="right",
+            range=[history_df["MACD"].min(), history_df["MACD"].max()],
+        ),
     )
 
     # Return the figure
