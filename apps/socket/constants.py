@@ -261,4 +261,5 @@ INDICATORS = [
     ("willr", "Williams %R 14"),
     ("adxr", "ADXR 14"),
     ("apo", "APO 12-26"),
+    ("ppo", "PPO 12-26-9"),
 ]

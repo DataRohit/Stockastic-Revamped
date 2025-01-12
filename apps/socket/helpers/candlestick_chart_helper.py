@@ -164,6 +164,11 @@ def generate_candlestick_chart(
             # Add the APO indicator
             fig = add_apo_indicator(fig, history_df, 12, 26)
 
+        # If indicator is "ppo"
+        case "ppo":
+            # Add the PPO indicator
+            fig = add_ppo_indicator(fig, history_df, 12, 26)
+
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
         title="Candlestick Chart",
