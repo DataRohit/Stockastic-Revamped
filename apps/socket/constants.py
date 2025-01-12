@@ -244,8 +244,9 @@ INTERVALS = {
 # Indicators
 INDICATORS = [
     ("none", "None"),
-    ("sma", "SMA"),
-    ("ema", "EMA"),
-    ("wma", "WMA"),
-    ("dema", "DEMA"),
+    ("sma", "SMA 20"),
+    ("ema", "EMA 20"),
+    ("wma", "WMA 20"),
+    ("dema", "DEMA 20"),
+    ("tema", "TEMA 20"),
 ]
