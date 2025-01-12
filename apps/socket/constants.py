@@ -283,4 +283,5 @@ INDICATORS = [
     ("sar", "Parabolic SAR 0.02-0.2"),
     ("trange", "True Range"),
     ("atr", "Average True Range 14"),
+    ("natr", "Normalized Average True Range 14"),
 ]

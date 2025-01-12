@@ -118,6 +118,7 @@ def generate_candlestick_chart(
         "sar": add_sar_indicator,
         "trange": add_trange_indicator,
         "atr": add_atr_indicator,
+        "natr": add_natr_indicator,
     }
 
     # If the indicator is in the mapping
