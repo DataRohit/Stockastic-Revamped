@@ -11,6 +11,7 @@ from apps.socket.helpers.chart_indicator_helpers import (
     add_macd_indicator,
     add_mama_indicator,
     add_sma_indicator,
+    add_stochastic_fast_indicator,
     add_stochastic_indicator,
     add_t3_indicator,
     add_tema_indicator,
@@ -145,6 +146,11 @@ def generate_candlestick_chart(
         case "stoch":
             # Add the Stochastic indicator
             fig = add_stochastic_indicator(fig, history_df)
+
+        # If indicator is "stochf"
+        case "stochf":
+            # Add the Stochastic Fast indicator
+            fig = add_stochastic_fast_indicator(fig, history_df)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(

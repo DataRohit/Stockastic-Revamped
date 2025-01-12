@@ -255,4 +255,5 @@ INDICATORS = [
     ("t3", "T3 20"),
     ("macd", "MACD 12-26-9"),
     ("stoch", "Stochastic 14-3"),
+    ("stochf", "Stochastic Fast 14-3"),
 ]
