@@ -35,6 +35,7 @@ from apps.socket.helpers.chart_indicator_helpers.stochrsi import (
 )
 from apps.socket.helpers.chart_indicator_helpers.t3 import add_t3_indicator
 from apps.socket.helpers.chart_indicator_helpers.tema import add_tema_indicator
+from apps.socket.helpers.chart_indicator_helpers.trange import add_trange_indicator
 from apps.socket.helpers.chart_indicator_helpers.trima import add_trima_indicator
 from apps.socket.helpers.chart_indicator_helpers.trix import add_trix_indicator
 from apps.socket.helpers.chart_indicator_helpers.ultosc import add_ultosc_indicator

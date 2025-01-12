@@ -281,4 +281,5 @@ INDICATORS = [
     ("midpoint", "Midpoint 14"),
     ("midprice", "Midprice 14"),
     ("sar", "Parabolic SAR 0.02-0.2"),
+    ("trange", "True Range"),
 ]
