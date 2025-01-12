@@ -149,6 +149,11 @@ def generate_candlestick_chart(
             # Add the Stochastic RSI indicator
             fig = add_stochastic_rsi_indicator(fig, history_df)
 
+        # If indicator is "willr"
+        case "willr":
+            # Add the Williams %R indicator
+            fig = add_williams_r_indicator(fig, history_df)
+
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
         title="Candlestick Chart",
