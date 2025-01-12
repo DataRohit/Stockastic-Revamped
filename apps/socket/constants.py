@@ -262,4 +262,5 @@ INDICATORS = [
     ("adxr", "ADXR 14"),
     ("apo", "APO 12-26"),
     ("ppo", "PPO 12-26-9"),
+    ("mom", "Momentum 10"),
 ]

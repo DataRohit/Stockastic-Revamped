@@ -169,6 +169,11 @@ def generate_candlestick_chart(
             # Add the PPO indicator
             fig = add_ppo_indicator(fig, history_df, 12, 26)
 
+        # If indicator is "mom"
+        case "mom":
+            # Add the MOM indicator
+            fig = add_mom_indicator(fig, history_df, 10)
+
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
         title="Candlestick Chart",
