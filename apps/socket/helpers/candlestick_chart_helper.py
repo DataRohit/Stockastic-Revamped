@@ -184,6 +184,11 @@ def generate_candlestick_chart(
             # Add the CCI indicator
             fig = add_cci_indicator(fig, history_df, 20)
 
+        # If indicator is "cmo"
+        case "cmo":
+            # Add the Chande Momentum Oscillator indicator
+            fig = add_cmo_indicator(fig, history_df, 20)
+
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
         title="Candlestick Chart",
