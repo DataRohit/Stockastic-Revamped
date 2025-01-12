@@ -139,10 +139,15 @@ def generate_candlestick_chart(
             # Add the Stochastic Fast indicator
             fig = add_stochastic_fast_indicator(fig, history_df)
 
-        # if indicator is "rsi"
+        # If indicator is "rsi"
         case "rsi":
             # Add the RSI indicator
             fig = add_rsi_indicator(fig, history_df, 14)
+
+        # If indicator is "stochrsi"
+        case "stochrsi":
+            # Add the Stochastic RSI indicator
+            fig = add_stochastic_rsi_indicator(fig, history_df)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(

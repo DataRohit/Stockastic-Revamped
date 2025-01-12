@@ -10,6 +10,9 @@ from apps.socket.helpers.chart_indicator_helpers.stoch import add_stochastic_ind
 from apps.socket.helpers.chart_indicator_helpers.stochf import (
     add_stochastic_fast_indicator,
 )
+from apps.socket.helpers.chart_indicator_helpers.stochrsi import (
+    add_stochastic_rsi_indicator,
+)
 from apps.socket.helpers.chart_indicator_helpers.t3 import add_t3_indicator
 from apps.socket.helpers.chart_indicator_helpers.tema import add_tema_indicator
 from apps.socket.helpers.chart_indicator_helpers.trima import add_trima_indicator

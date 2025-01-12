@@ -257,4 +257,5 @@ INDICATORS = [
     ("stoch", "Stochastic 14-3"),
     ("stochf", "Stochastic Fast 14-3"),
     ("rsi", "RSI 14"),
+    ("stochrsi", "Stochastic RSI 14-3"),
 ]
