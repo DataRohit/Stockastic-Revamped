@@ -7,8 +7,10 @@ import yfinance as yf
 from apps.socket.helpers.chart_indicator_helpers import (
     add_dema_indicator,
     add_ema_indicator,
+    add_kama_indicator,
     add_sma_indicator,
     add_tema_indicator,
+    add_trima_indicator,
     add_wma_indicator,
 )
 from apps.socket.utils import fetch_ticker_data
@@ -109,6 +111,16 @@ def generate_candlestick_chart(
         case "tema":
             # Add the TEMA indicator
             fig = add_tema_indicator(fig, history_df, 20)
+
+        # If indicator is "trima"
+        case "trima":
+            # Add the TRIMA indicator
+            fig = add_trima_indicator(fig, history_df, 20)
+
+        # If indicator is "kama"
+        case "kama":
+            # Add the KAMA indicator
+            fig = add_kama_indicator(fig, history_df, 20)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(

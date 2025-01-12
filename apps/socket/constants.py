@@ -249,4 +249,6 @@ INDICATORS = [
     ("wma", "WMA 20"),
     ("dema", "DEMA 20"),
     ("tema", "TEMA 20"),
+    ("trima", "TRIMA 20"),
+    ("kama", "KAMA 20"),
 ]
