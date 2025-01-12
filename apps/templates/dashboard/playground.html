@@ -82,5 +82,68 @@
         }
 
         document.getElementById('{{ form.period.id_for_label }}').addEventListener('change', updateIntervals);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!('WebSocket' in window)) {
+                console.error("WebSocket not supported in this browser.");
+                return;
+            }
+
+            const isMarketOpen = {{ is_market_open|lower }};
+            if (!isMarketOpen) {
+                console.log("Market is closed. Not connecting to WebSocket.");
+                return;
+            }
+
+            const symbol = "{{ symbol }}";
+            const period = "{{ period }}";
+            const interval = "{{ interval }}";
+            const indicator = "{{ indicator }}";
+            const ws = new WebSocket(`ws://${window.location.host}/ws/quote/${symbol}/chart/?period=${period}&interval=${interval}&indicator=${indicator}`);
+
+            ws.onmessage = function (event) {
+                try {
+                    const chartContainer = document.getElementById('chart-container');
+                    if (!chartContainer) {
+                        console.error('Chart container element not found');
+                        return;
+                    }
+
+                    const oldScripts = document.querySelectorAll('script[data-chart-script]');
+                    oldScripts.forEach(script => script.remove());
+
+                    chartContainer.innerHTML = event.data;
+
+                    const scripts = chartContainer.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.type = script.type || 'text/javascript';
+                        newScript.setAttribute('data-chart-script', 'true');
+
+                        if (script.src) {
+                            newScript.src = script.src;
+                            newScript.async = false;
+                            document.head.appendChild(newScript);
+                        } else {
+                            newScript.textContent = script.textContent;
+                            document.body.appendChild(newScript);
+                        }
+
+                        script.remove();
+                    });
+                } catch (error) {
+                    console.error('Error rendering chart:', error);
+                }
+            };
+
+
+            ws.onerror = function (error) {
+                console.error('WebSocket error:', error);
+            };
+
+            ws.onclose = function () {
+                console.log('WebSocket connection closed');
+            };
+        });
     </script>
 {% endblock script %}

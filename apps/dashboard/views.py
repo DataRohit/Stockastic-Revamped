@@ -126,9 +126,13 @@ def playground_view(request, symbol: str):
     # Create a context dictionary
     context = {
         "user": request.user,
+        "is_market_open": is_market_open(),
         "form": form,
         "quote": quote[1],
         "chart": chart.to_html(),
+        "period": period,
+        "interval": interval,
+        "indicator": indicator,
     }
 
     # Render the playground.html template
