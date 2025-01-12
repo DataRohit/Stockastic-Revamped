@@ -246,4 +246,5 @@ INDICATORS = [
     ("none", "None"),
     ("sma", "SMA"),
     ("ema", "EMA"),
+    ("wma", "WMA"),
 ]

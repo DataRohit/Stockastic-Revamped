@@ -7,6 +7,7 @@ import yfinance as yf
 from apps.socket.helpers.chart_indicator_helpers import (
     add_ema_indicator,
     add_sma_indicator,
+    add_wma_indicator,
 )
 from apps.socket.utils import fetch_ticker_data
 
@@ -91,6 +92,11 @@ def generate_candlestick_chart(
         case "ema":
             # Add the EMA indicator
             fig = add_ema_indicator(fig, history_df, 20)
+
+        # If indicator is "wma"
+        case "wma":
+            # Add the WMA indicator
+            fig = add_wma_indicator(fig, history_df, 20)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
