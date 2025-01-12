@@ -260,4 +260,5 @@ INDICATORS = [
     ("stochrsi", "Stochastic RSI 14-3"),
     ("willr", "Williams %R 14"),
     ("adxr", "ADXR 14"),
+    ("apo", "APO 12-26"),
 ]
