@@ -208,10 +208,11 @@ class QuoteChartConsumer(AsyncWebsocketConsumer):
                 # Get the period and interval from the query parameters
                 period = self.query_params.get("period", "1d")
                 interval = self.query_params.get("interval", "5m")
+                indicator = self.query_params.get("indicator", "none")
 
                 # Get the chart for the index quote
                 chart = generate_candlestick_chart(
-                    self.symbol, period, interval, "none"
+                    self.symbol, period, interval, indicator
                 ).to_html()
 
                 # Send the quotes to the WebSocket client
