@@ -92,12 +92,47 @@ A comprehensive list of Python dependencies is maintained in `requirements.txt`.
 
 This project is licensed under the MIT License - see the `license` file for details.
 
+## 🖥️ Project Demo
+
+#### Home / Landing Page
+![Home / Landing Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/01-home.png)
+
+#### User Registration Page
+![User Registration Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/02-register.png)
+
+#### User Login Page
+![User Login Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/03-login.png)
+
+#### Explore Page
+![Explore Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/04-explore.png)
+
+#### User Profile Update Page
+![User Profile Update Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/05-profile.png)
+
+#### Indices List Page
+![Indices List Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/06-indices.png)
+
+#### Top Gainers Page
+![Top Gainers Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/07-gainers.png)
+
+#### Top Losers Page
+![Top Losers Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/08-losers.png)
+
+#### Index Detail Page
+![Index Detail Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/09-index-detail.png)
+
+#### Equity Stock Detail Page
+![Equity Stock Detail Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/10-equity-detail.png)
+
+#### Playground Page
+![Playground Page](https://raw.githubusercontent.com/DataRohit/Stockastic-Revamped/refs/heads/master/apps/static/images/demo/11-playground.png)
+
 ## 🙏 Acknowledgments
 
 - NSE Python library contributors
 - yfinance maintainers
 - Django community
-- TA-Lib contributors
+- TA contributors
 - Tailwind CSS team
 - DaisyUI contributors
 - All contributors who have helped shape this project
