@@ -174,6 +174,11 @@ def generate_candlestick_chart(
             # Add the MOM indicator
             fig = add_mom_indicator(fig, history_df, 10)
 
+        # If indicator is "bop"
+        case "bop":
+            # Add the Balance of Power indicator
+            fig = add_bop_indicator(fig, history_df)
+
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
         title="Candlestick Chart",
