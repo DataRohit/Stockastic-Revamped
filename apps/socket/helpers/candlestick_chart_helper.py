@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 import plotly.graph_objects as go
 import yfinance as yf
 
+from apps.socket.helpers.chart_indicator_helpers import add_sma_indicator
 from apps.socket.utils import fetch_ticker_data
 
 
@@ -74,6 +75,13 @@ def generate_candlestick_chart(
             yanchor="bottom",
             xanchor="left",
         )
+
+    # Match the indicator
+    match indicator:
+        # If indicator is "sma"
+        case "sma":
+            # Add the SMA indicator
+            fig = add_sma_indicator(fig, history_df, 20)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
