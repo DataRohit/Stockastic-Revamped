@@ -272,4 +272,5 @@ INDICATORS = [
     ("aroonosc", "Aroon Oscillator 14"),
     ("trix", "TRIX 14-9"),
     ("ultosc", "Ultimate Oscillator 7-14-28"),
+    ("dx", "DX 14"),
 ]

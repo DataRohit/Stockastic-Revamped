@@ -107,6 +107,7 @@ def generate_candlestick_chart(
         "aroonosc": add_aroonosc_indicator,
         "trix": add_trix_indicator,
         "ultosc": add_ultosc_indicator,
+        "dx": add_dx_indicator,
     }
 
     # If the indicator is in the mapping
