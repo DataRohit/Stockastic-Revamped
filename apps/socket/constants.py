@@ -264,4 +264,5 @@ INDICATORS = [
     ("ppo", "PPO 12-26-9"),
     ("mom", "Momentum 10"),
     ("bop", "Balance of Power"),
+    ("cci", "CCI 20"),
 ]

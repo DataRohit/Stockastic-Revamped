@@ -2,6 +2,7 @@
 from apps.socket.helpers.chart_indicator_helpers.adxr import add_adxr_indicator
 from apps.socket.helpers.chart_indicator_helpers.apo import add_apo_indicator
 from apps.socket.helpers.chart_indicator_helpers.bop import add_bop_indicator
+from apps.socket.helpers.chart_indicator_helpers.cci import add_cci_indicator
 from apps.socket.helpers.chart_indicator_helpers.dema import add_dema_indicator
 from apps.socket.helpers.chart_indicator_helpers.ema import add_ema_indicator
 from apps.socket.helpers.chart_indicator_helpers.kama import add_kama_indicator

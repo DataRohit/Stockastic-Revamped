@@ -179,6 +179,11 @@ def generate_candlestick_chart(
             # Add the Balance of Power indicator
             fig = add_bop_indicator(fig, history_df)
 
+        # If indicator is "cci"
+        case "cci":
+            # Add the CCI indicator
+            fig = add_cci_indicator(fig, history_df, 20)
+
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
         title="Candlestick Chart",
