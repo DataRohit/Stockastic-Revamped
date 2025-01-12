@@ -8,6 +8,7 @@ from apps.socket.helpers.chart_indicator_helpers import (
     add_dema_indicator,
     add_ema_indicator,
     add_kama_indicator,
+    add_mama_indicator,
     add_sma_indicator,
     add_tema_indicator,
     add_trima_indicator,
@@ -121,6 +122,11 @@ def generate_candlestick_chart(
         case "kama":
             # Add the KAMA indicator
             fig = add_kama_indicator(fig, history_df, 20)
+
+        # If indicator is "mama"
+        case "mama":
+            # Add the MAMA indicator
+            fig = add_mama_indicator(fig, history_df, 20)
 
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(

@@ -251,4 +251,5 @@ INDICATORS = [
     ("tema", "TEMA 20"),
     ("trima", "TRIMA 20"),
     ("kama", "KAMA 20"),
+    ("mama", "MAMA 20"),
 ]
