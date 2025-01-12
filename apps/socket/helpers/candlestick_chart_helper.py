@@ -189,6 +189,11 @@ def generate_candlestick_chart(
             # Add the Chande Momentum Oscillator indicator
             fig = add_cmo_indicator(fig, history_df, 20)
 
+        # If indicator is "roc"
+        case "roc":
+            # Add the Rate of Change indicator
+            fig = add_roc_indicator(fig, history_df, 10)
+
     # Update the layout with Tailwind bg-base-100 color
     fig.update_layout(
         title="Candlestick Chart",

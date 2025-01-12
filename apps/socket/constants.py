@@ -266,4 +266,5 @@ INDICATORS = [
     ("bop", "Balance of Power"),
     ("cci", "CCI 20"),
     ("cmo", "Chande Momentum Oscillator 20"),
+    ("roc", "Rate of Change 10"),
 ]
